@@ -17,7 +17,7 @@ const Navbar = (props) => {
     }
 
     return(
-        <nav className="fixed w-screen h-14 bg-primary">
+        <nav className="!z-50 fixed w-screen h-16 bg-primary">
             <div className="container flex max-w-6xl h-full mx-auto items-center">
                 <div className="text-white w-1/4 flex justify-center items-center">
                     <h2 className="text-3xl">E-APP</h2>

@@ -21,7 +21,7 @@ const Authentication = () => {
             signInBtn.classList.add('hidden')
             signUpBtn.classList.remove('hidden')
 
-            signUpBox.classList.add('sign-up-box-hidden-animation')
+            signUpBox.classList.add('sign-up-box-hidden-animation', 'flex')
             signUpBox.classList.remove('sign-up-box-animation')
             
             setTimeout(() => {
@@ -67,7 +67,7 @@ const Authentication = () => {
                     <div id="sign-up" className="flex justify-center w-full py-5">
                         <SignUp/>
                     </div>
-                    <div id="sign-in" className="hidden flex justify-center w-full py-5">
+                    <div id="sign-in" className="hidden justify-center w-full py-5">
                         <SignIn/>
                     </div>
                 </div>
