@@ -51,10 +51,10 @@ const Authentication = () => {
 
     return(
         <div className="w-screen h-screen">
-            <div id="purple-bg" className="-z-10 absolute h-screen w-5/12 bg-[rgba(86,112,235,1)]"></div>
+            <div id="purple-bg" className="-z-10 absolute h-screen w-5/12 bg-primary"></div>
             <div className="w-screen h-screen flex justify-center items-center">
-                <div className="container max-w-4xl flex mx-auto rounded-3xl h-[600px] shadows bg-white">
-                    <div className="bg-[rgba(86,112,235,1)] max-w-[288px] w-full flex justify-center items-center rounded-l-2xl py-5">
+                <div className="container max-w-4xl flex mx-auto rounded-3xl h-[600px] shadows bg-secondary">
+                    <div className="bg-primary max-w-[288px] w-full flex justify-center items-center rounded-l-3xl py-5 border-none">
                         <div id="sign-in-btn-cont" className="w-3/4 mx-auto text-white text-center">
                             <h2 className="mb-4">If you are already Part of our journey no need to be here click below and Log In now</h2>
                             <button onClick={movingSideBox} className="w-32 h-10 align-middle border-2 border-white rounded-3xl hover:font-bold hover:border-4 transition-all duration-500 ease-linear">Sign In</button>

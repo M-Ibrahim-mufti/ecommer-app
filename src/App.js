@@ -21,12 +21,13 @@ function App() {
             localStorage.clear();
         }
     }
+
     useEffect(() => {
         tokenRefresh();
     },[])
     return (
         <BrowserRouter>
-            { current_user ? < Navbar user={current_user} /> : ''}    
+            { current_user ? < Navbar user={current_user} /> : ''}  
             <Routes>
                 <Route path='/' user={current_user}  element={current_user ? <Dashboard/> : <Navigate to='/Authentication'/>} ></Route>
                 <Route path='/Authentication' element={!current_user ? <Authentication/> : <Navigate to="/" />}></Route>

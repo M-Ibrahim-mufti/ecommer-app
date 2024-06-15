@@ -1,9 +1,16 @@
 import React from "react";
-
+import DashHeader from "./DashComponents/Header";
+import EmblemSections from "./DashComponents/Sections";
 const Dashboard = () => {
     return (
-        <div>
-            <h2>Welcome to Dashboard</h2>
+        <div className="py-14">
+            <DashHeader/>
+            <div className="w-full py-5 bg-white">
+                <EmblemSections/>
+            </div>
+            <div className="py-5">
+            
+            </div>
         </div>
     );
 }

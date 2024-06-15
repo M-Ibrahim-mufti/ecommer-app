@@ -1,24 +1,28 @@
-import * as React from 'react';
+import { useState } from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { Avatar, IconButton } from '@mui/material';
-export default function BasicMenu(props) {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
+
+const BasicMenu = (props) => {
+
+  const [isOpen, setIsOpen] = useState(null);
+  const open = Boolean(isOpen);
+
   const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+    setIsOpen(event.currentTarget);
   };
+
   const handleClose = () => {
-    setAnchorEl(null);
+    setIsOpen(null);
   };
   
   return (
     <div>
-        <IconButton aria-controls={open ? 'basic-menu' : undefined} aria-haspopup="true" aria-expanded={open ? 'true' : undefined} onClick={handleClick}>
+        <IconButton onClick={handleClick}>
             <Avatar id="menuBtn" className='w-[40px] h-[40px] font-bold' style={{backgroundColor:'white', color:'black' }} >{props.UserName}</Avatar>
         </IconButton>
-        <Menu id="basic-menu" anchorEl={anchorEl} open={open} onClose={handleClose} MenuListProps={{ 'aria-labelledby': 'basic-button' }}>
+        <Menu id="basic-menu" anchorEl={isOpen} open={open} onClose={handleClose} MenuListProps={{ 'aria-labelledby': 'basic-button' }}>
             <MenuItem onClick={handleClose}>Profile</MenuItem>
             <MenuItem onClick={handleClose}>My account</MenuItem>
             <MenuItem onClick={() => { handleClose(); props.signOut(); }}>Logout</MenuItem>
@@ -26,3 +30,5 @@ export default function BasicMenu(props) {
     </div>
   );
 }
+
+export default BasicMenu

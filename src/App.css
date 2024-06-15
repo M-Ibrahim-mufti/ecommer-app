@@ -1,0 +1,12 @@
+:root {
+    --primary-bg-color:rgba(0,0,0,0.83);
+    --secondary-bg-color:rgb(255,254,236);
+    --text-primary: 
+}
+
+.bg-primary{
+    background-color: var(--primary-bg-color);
+}
+.bg-secondary{
+    background-color: var(--secondary-bg-color);
+}
