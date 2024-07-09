@@ -8,9 +8,7 @@ const Dashboard = () => {
             <div className="w-full py-5 bg-white">
                 <EmblemSections/>
             </div>
-            <div className="py-5">
-            
-            </div>
+
         </div>
     );
 }

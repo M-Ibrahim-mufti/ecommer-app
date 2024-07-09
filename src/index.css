@@ -2,7 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    --primary-bg-color:rgb(43,43,40);
+    --secondary-bg-color:#f2f5f7;
+}
+
+.bg-primary{
+    background-color: var(--primary-bg-color);
+}
+.bg-secondary{
+    background-color: var(--secondary-bg-color);
+}
+
 body {
     font-family: 'Times New Roman', Times, serif;
-    background-color: rgb(255,254,236);
+    background-color: var(--secondary-bg-color);
+}
+
+.text-muted {
+    color:  #B5B5C3;
+}
+
+.btn-shadows {
+    box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.15);
 }

@@ -1,13 +1,14 @@
 const Authentication = require('../model/Authentication');
 const bcrypt = require('bcrypt');
 const JWT = require('jsonwebtoken');
-const { useResolvedPath } = require('react-router-dom');
 require('dotenv').config()
 
 
 exports.SignUp = async(req,res) => {
     try{
-        
+        const email = req.body.email
+        console.log(email);
+
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
         const user = new Authentication({
             UserName: req.body.name,
@@ -15,17 +16,19 @@ exports.SignUp = async(req,res) => {
             Password: hashedPassword
         });
 
+        console.log(user)
         const response = await user.save();
+        console.log(response)
         const payload = {
             user_id: response._id,
             UserName: response.UserName,
             Email: response.Email,
         }
-        const accessToken = JWT.sign(payload,process.env.JWT_ACCESS_TOKEN, {expiresIn:'1min'})
-        const refreshToken = JWT.sign(payload,process.env.JWT_REFRESH_TOKEN, {expiresIn:'2min'})
+        const accessToken = JWT.sign(payload,process.env.JWT_ACCESS_TOKEN, {expiresIn:'15min'})
+        const refreshToken = JWT.sign(payload,process.env.JWT_REFRESH_TOKEN, {expiresIn:'1day'})
 
-        res.cookie("AccessToken", accessToken, {maxAge: 60000, httpOnly:true, secure:true, sameSite:'lax'})
-        res.cookie('RefreshToken', refreshToken, {maxAge: 2 * 60000, httpOnly:true, secure:true, sameSite:'lax'})
+        res.cookie("AccessToken", accessToken, {maxAge: 15 * 60000, httpOnly:true, secure:true, sameSite:'lax'})
+        res.cookie('RefreshToken', refreshToken, {maxAge: 24 * 60 * 60000, httpOnly:true, secure:true, sameSite:'lax'})
         res.status(201).json(payload)
     }
     catch(error) {
@@ -50,8 +53,8 @@ exports.SignIn = async (req,res) => {
     const accessToken = JWT.sign(payload,process.env.JWT_ACCESS_TOKEN, {expiresIn:'15min'})
     const refreshToken = JWT.sign(payload,process.env.JWT_REFRESH_TOKEN, {expiresIn:'1day'})
 
-    res.cookie("AccessToken", accessToken, {maxAge: 60000, httpOnly:true, secure:true, sameSite:'lax'})
-    res.cookie('RefreshToken', refreshToken, {maxAge: 24 * 60 * 60000, httpOnly:true, secure:true, sameSite:'lax'})
+    res.cookie("AccessToken", accessToken, {maxAge: 15 * 60000, httpOnly:true, secure:true, sameSite:'lax'})
+    res.cookie('RefreshToken', refreshToken, {maxAge: 24 * 60 *  60000, httpOnly:true, secure:true, sameSite:'lax'})
     res.json({success:true, user:payload, message:"User Found"})
 
 }
@@ -67,10 +70,10 @@ exports.refreshToken = async (req,res) => {
             UserName: user.UserName,
             Email: user.Email
         }
-        return res.json({user:payload, success:true});
+        return res.json({user:payload, message:"token already exists", success:true});
     }
     if (!refreshToken && !accessToken) {
-        return res.json({success:false, message:"No refresh token found"})
+        return res.status(402).json({message:'no refresh token and access token found'});
     }
     
     const decoded = JWT.verify(refreshToken, process.env.JWT_REFRESH_TOKEN);
@@ -81,16 +84,27 @@ exports.refreshToken = async (req,res) => {
         Email: user.Email
     }
 
-    const newAccessToken = JWT.sign(payload, process.env.JWT_ACCESS_TOKEN , {expiresIn:'1day'});
+    const newAccessToken = JWT.sign(payload, process.env.JWT_ACCESS_TOKEN , {expiresIn:'15min'});
 
-    res.cookie('AccessToken',newAccessToken,{maxAge: 24 * 60 * 60000, httpOnly:true, secure:true, sameSite:'lax'});
-    res.json({ user:payload, success:true ,message:"updated Token successfully" });
+    res.cookie('AccessToken',newAccessToken,{maxAge: 15 * 60 * 1000, httpOnly:true, secure:true, sameSite:'lax'});
+    res.status(200).json({ user:payload, success:true ,message:"updated Token successfully" });
+}
+
+exports.currentUserDetail = async (req,res) => {
+    try {
+        const id = req.query.id
+        const user = await Authentication.findOne({
+            _id: id 
+        })
+        res.status(201).json(user);
+    } catch (err) {
+        res.status(402).json(err);
+    }
 }
 
 exports.logout = async (req, res) => {
     res.clearCookie('AccessToken', {httpOnly:true, secure:true, sameSite:'lax'});
     res.clearCookie('RefreshToken', {httpOnly:true, secure:true, sameSite:'lax'});
-
     res.json({success:true, message:'Successfully Signed Out'})
 }
 

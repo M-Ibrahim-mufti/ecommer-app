@@ -15,6 +15,28 @@ const AuthenticationSchema = mongoose.Schema({
         type:String,
         required:true
     },
+    Address: {
+        type:String,
+        default: 'not provided'
+    },
+    Role: {
+        type:String,
+        default:'Buyer',
+        enum:['Seller', 'Buyer', 'Hybrid']
+    },
+    Image: {
+        type:String,
+        default: 'not provided'
+    },
+    Country: {
+        type:String,
+        default: 'not provided'
+    },
+    PhoneNumber: {
+        type:String,
+        default: 'not provided'
+    },
+
 },{ timestamps:true, versionKey:false  })
 
 

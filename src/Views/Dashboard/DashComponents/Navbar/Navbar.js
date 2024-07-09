@@ -24,12 +24,12 @@ const Navbar = (props) => {
                 </div>
                 <ul className="w-1/2 flex justify-end gap-9 items-center">
                     <li className="text-white hover:font-bold transition-all duration-500 ease-linear"><Link to='/'>Dashboard</Link></li>
-                    <li className="text-white hover:font-bold transition-all duration-500 ease-linear"><Link to='/Products'>Products</Link></li>
+                    <li className="text-white hover:font-bold transition-all duration-500 ease-linear"><Link to='/product/user-products'>Products</Link></li>
                     <li className="text-white hover:font-bold transition-all duration-500 ease-linear"><Link to='/Blogs'>Blogs</Link></li>
                     <li className="text-white hover:font-bold transition-all duration-500 ease-linear"><Link to='/About'>About</Link></li>
                 </ul>
                 <div className="w-1/5 flex justify-center text-clip ">
-                    <Dropdown numberOfItems={5} UserName={user.user.UserName.charAt(0).toUpperCase()} signOut={signOut} />
+                    <Dropdown numberOfItems={5} user={user.user} signOut={signOut} />
                 </div>
             </div>
         </nav>
