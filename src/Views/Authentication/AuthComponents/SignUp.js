@@ -5,7 +5,7 @@ import '../Authentication.css'
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const SignUp = () => {
+const SignUp = (props) => {
     const navigate = useNavigate()
     const [user, setUser] = useState({
         name: "",
@@ -40,14 +40,14 @@ const SignUp = () => {
 
             axios.defaults.withCredentials = true
             const response = await axios.post(url, user)
-            console.log(response)
-
+            
             if (response.status === 201) {
+                props.triggerNotification('success', response.data.message);
                 navigate('/')
                 window.location.reload();
             }
         } catch(err) {
-            console.log(err)
+            props.triggerNotification('danger', err || err.response.data.message)
         }
     }
 

@@ -4,8 +4,10 @@ import { faFacebook, faGit, faGoogle  } from "@fortawesome/free-brands-svg-icons
 import '../Authentication.css'
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-const SignIn = () => {
+const SignIn = (props) => {
+    const navigate = useNavigate()
     const [user, setUser] = useState({
         email: "",
         password: ""
@@ -29,8 +31,6 @@ const SignIn = () => {
             const method = '/SignIn'
             const url = process.env.REACT_APP_SERVER_URL + method
 
-            console.log(user)
-
             if (!user.email || !user.password) {
                 throw "Field Can not be blanked";
             
@@ -38,13 +38,15 @@ const SignIn = () => {
 
             axios.defaults.withCredentials = true;
             const response = await axios.post(url, user)
-            console.log(response.data.success)
+            console.log('function called')
             if(response.data.success) {
+                props.triggerNotification('success', "Logged in successfully")
                 localStorage.setItem('User',JSON.stringify(response.data));
+                navigate('/')
                 window.location.reload();
             }
         } catch(error) {
-            console.log(error)
+            props.triggerNotification('danger', error || error.response.data.message)
         }
     }
     const handleEnterLogin = (event) => {

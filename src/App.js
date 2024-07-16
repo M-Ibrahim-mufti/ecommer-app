@@ -10,8 +10,12 @@ import Sidebar from './Views/Dashboard/DashComponents/Sidebar/sidebar';
 import Cart from './Views/Dashboard/DashComponents/Cart/Cart';
 import Profile from './Views/User/Profile/Profile';
 import NewProduct from './Views/Product/NewProduct';
+import MyProductList from './Views/User/MyProduct/MyProduct';
+import NotficationMessages from './utils/notifications';
 
-function App() {
+function AppContent() {
+    const [notification, setNotification] = useState({type:'', message:''});
+    const navigate = useNavigate();
     const [current_user, setCurrent_User] = useState(JSON.parse(localStorage.getItem('User')))
     const tokenRefresh = async () => {
         try {
@@ -20,7 +24,7 @@ function App() {
             axios.defaults.withCredentials = true;
             const response = await axios.get(url);
             if (response.status === 200) {
-                console.log(response.data.message)
+                console.log(response.data)
                 localStorage.setItem('User',JSON.stringify(response.data));
                 setCurrent_User(JSON.parse(localStorage.getItem('User')));
             }
@@ -30,12 +34,16 @@ function App() {
                     console.log(err.response.data.message);
                     localStorage.clear();
                     setCurrent_User(null)
+                    navigate('/');
+                    
                 } else {
                     console.log("status", err.response.status);
                 }
             }
         }
     }
+
+
 
     useEffect(() => {
         const tokenRefreshCall = setInterval(() =>{
@@ -47,22 +55,44 @@ function App() {
 
         return () => clearInterval(tokenRefreshCall);
     },[])
-    return (
-        <BrowserRouter>
+
+    const triggerNotification = (type, message) => {
+        setNotification({type, message});
+
+        setTimeout(() => {
+            setNotification({type: '', message: ''});
+        },4000)
+    }
+
+    return(
+        <div>
             { current_user ? <Navbar user={current_user} /> : null }
+            <NotficationMessages type={notification.type} message={notification.message}/>
             <div className='flex'>
                 { current_user ? <Sidebar user={current_user} /> : null }
                 <div className='flex-grow'>
                     <Routes>
-                        <Route path='/' element={current_user ? <Dashboard /> : <Navigate to='/Authentication' />} />
-                        <Route path='/Authentication' element={!current_user ? <Authentication /> : <Navigate to="/" />} />
-                        <Route path='/product/user-products' element={current_user ? <ShowAllProducts /> : <Navigate to="/Authentication" />} />
-                        <Route path='/product/add-product' element={current_user ? <NewProduct /> : <Navigate to="/Authentication" />} />
-                        <Route path='/user/profile/:id' element={current_user ? <Profile /> : < Navigate to="/Authentication" /> } />
+                        <Route path='/' element={current_user ? <Dashboard triggerNotification={triggerNotification}  /> : <Navigate to='/Authentication' />} />
+                        <Route path='/Authentication' element={!current_user ? <Authentication triggerNotification={triggerNotification}  /> : <Navigate to="/" />} />
+                        <Route path='/product/user-products' element={current_user ? <ShowAllProducts triggerNotification={triggerNotification}  /> : <Navigate to="/Authentication" />} />
+                        <Route path='/product/add-product' element={current_user ? <NewProduct triggerNotification={triggerNotification}  current_user={current_user} /> : <Navigate to="/Authentication" />} />
+                        <Route path='/user/profile/:id' element={current_user ? <Profile triggerNotification={triggerNotification}   /> : < Navigate to="/Authentication" /> } />
+                        <Route path='/user/your-products/:id' element={current_user ? <MyProductList triggerNotification={triggerNotification} /> : <Navigate to='/Authentication' />} ></Route>
                     </Routes>
                 </div>
             </div>
             { current_user ? <Cart /> : null}
+        </div>
+    )
+}
+
+
+function App() {
+
+   
+    return (
+        <BrowserRouter>
+            <AppContent/>
         </BrowserRouter>
     );
 }

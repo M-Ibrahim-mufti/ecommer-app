@@ -16,13 +16,17 @@
 
 body {
     font-family: 'Times New Roman', Times, serif;
-    background-color: var(--secondary-bg-color);
+    background-color: white;
 }
 
 .text-muted {
-    color:  #B5B5C3;
+    color:  #9E9EA9;
+}
+
+.text-muted-dark {
+    color:  #7e7e7e;
 }
 
 .btn-shadows {
-    box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.15);
+    box-shadow: 0px 0px 4px 1px rgba(0,0,0,0.15);
 }

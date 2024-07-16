@@ -4,7 +4,7 @@ import SignIn from "./AuthComponents/SignIn";
 import './Authentication.css'
 
 
-const Authentication = () => {
+const Authentication = (props) => {
     const movingSideBox = (event) => {
         const sideBox = event.target.parentElement.parentElement
         const signUpBox = document.getElementById('sign-up')
@@ -50,7 +50,7 @@ const Authentication = () => {
     }
 
     return(
-        <div className="w-screen h-screen">
+        <div className="w-screen overflox-x-hidden h-screen">
             <div id="purple-bg" className="-z-10 absolute h-screen w-5/12 bg-primary"></div>
             <div className="w-screen h-screen flex justify-center items-center">
                 <div className="container max-w-4xl flex mx-auto rounded-[28px] h-[600px] shadows bg-secondary">
@@ -65,10 +65,10 @@ const Authentication = () => {
                         </div>
                     </div>
                     <div id="sign-up" className="flex justify-center w-full py-5">
-                        <SignUp/>
+                        <SignUp triggerNotification={props.triggerNotification} />
                     </div>
                     <div id="sign-in" className="hidden justify-center w-full py-5">
-                        <SignIn/>
+                        <SignIn triggerNotification={props.triggerNotification} />
                     </div>
                 </div>
             </div>
