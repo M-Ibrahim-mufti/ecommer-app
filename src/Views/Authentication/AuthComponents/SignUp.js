@@ -32,10 +32,10 @@ const SignUp = (props) => {
             const url = process.env.REACT_APP_SERVER_URL + method;
             
             if(!user.name || !user.email || !user.password || !user.confirmPassword) { 
-                throw 'fill the fields'; 
+                throw  new Error('fill the fields'); 
             };
             if(user.password !== user.confirmPassword) {
-                throw 'Password did not match'; 
+                throw new Error('Password did not match'); 
             };
 
             axios.defaults.withCredentials = true
@@ -46,8 +46,8 @@ const SignUp = (props) => {
                 navigate('/')
                 window.location.reload();
             }
-        } catch(err) {
-            props.triggerNotification('danger', err || err.response.data.message)
+        } catch(error) {
+            props.triggerNotification('danger', error.message || error.response?.data?.message)
         }
     }
 

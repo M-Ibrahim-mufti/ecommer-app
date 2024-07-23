@@ -32,11 +32,11 @@ const SignIn = (props) => {
             const url = process.env.REACT_APP_SERVER_URL + method
 
             if (!user.email || !user.password) {
-                throw "Field Can not be blanked";
+                throw new Error("Field Can not be blanked");
             
             }
 
-            axios.defaults.withCredentials = true;
+            axios.defaults.withCredentials = true;  
             const response = await axios.post(url, user)
             console.log('function called')
             if(response.data.success) {
@@ -46,7 +46,7 @@ const SignIn = (props) => {
                 window.location.reload();
             }
         } catch(error) {
-            props.triggerNotification('danger', error || error.response.data.message)
+            props.triggerNotification('danger', error.response?.data?.message || error.message )
         }
     }
     const handleEnterLogin = (event) => {

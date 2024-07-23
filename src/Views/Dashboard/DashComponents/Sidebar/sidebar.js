@@ -111,27 +111,27 @@ const Sidebar = (props) => {
                         <hr className="w-1/4 opacity-50" />
                     </div>
                     <div className="mb-3 gap-4 flex flex-col">
-                        <Link to="/" className="group flex justify-start px-3 py-2 rounded-lg items-center hover:bg-black hover:bg-opacity-20 transition-all duration-300 ease-linear">
+                        <Link to="/" className="group flex justify-start gap-3 px-3 py-2 rounded-lg items-center hover:bg-black hover:bg-opacity-20 transition-all duration-300 ease-linear">
                             <div className="w-1/5 text-center">
                                 <GridViewOutlined className="group-hover:text-opacity-100 opacity-100 transition-all duration-200 ease-linear text-opacity-75 text-white rounded-lg !w-[30px] !h-[30px]"/>
                             </div>
                             <h2 className="group-hover:text-opacity-100 transition-all duration-200 ease-linear w-3/5 text-opacity-75 text-white font-bold tracking-wider">Dashboard</h2>
                         </Link>
-                        <Link to="/product/user-products" className="group flex justify-start px-3 py-2 rounded-lg items-center hover:bg-black hover:bg-opacity-20 transition-all duration-300 ease-linear">
+                        <Link to="/product/user-products" className="group flex justify-start gap-3 px-3 py-2 rounded-lg items-center hover:bg-black hover:bg-opacity-20 transition-all duration-300 ease-linear">
                             <div className="w-1/5 text-center">
                                 <ShoppingBagOutlined className="group-hover:text-opacity-100 opacity-100 transition-all duration-200 ease-linear text-opacity-75 text-white rounded-lg !w-[30px] !h-[30px]"/>
                             </div>
                             <h2 className="group-hover:text-opacity-100 transition-all duration-200 ease-linear w-3/5 text-opacity-75 text-white font-bold tracking-wider">All Product</h2>
                         </Link>
                         { props.user.user.Role !== 'Buyer' &&  
-                        <Link to="/product/add-product" className="group flex justify-start px-3 py-2 rounded-lg items-center hover:bg-black hover:bg-opacity-20 transition-all duration-300 ease-linear">
+                        <Link to="/product/add-product" className="group flex justify-start gap-3 px-3 py-2 rounded-lg items-center hover:bg-black hover:bg-opacity-20 transition-all duration-300 ease-linear">
                             <div className="w-1/5 text-center">
                                 <AddBoxOutlined className="group-hover:text-opacity-100 opacity-100 transition-all duration-200 ease-linear text-opacity-75 text-white rounded-lg !w-[30px] !h-[30px]"/>
                             </div>
                             <h2 className="group-hover:text-opacity-100 transition-all duration-200 ease-linear w-3/5 text-opacity-75 text-white font-bold tracking-wider">Add Product</h2>
                         </Link>}
                         { props.user.user.Role !== 'Buyer' &&  
-                        <Link  to={`/user/your-products/${props.user.user.user_id}`} className="group flex justify-start px-3 py-2 rounded-lg items-center hover:bg-black hover:bg-opacity-20 transition-all duration-300 ease-linear">
+                        <Link  to={`/user/your-products/${props.user.user.user_id}`} className="group flex justify-start gap-3 px-3 py-2 rounded-lg items-center hover:bg-black hover:bg-opacity-20 transition-all duration-300 ease-linear">
                             <div className="w-1/5 text-center">
                                 <FormatListBulleted className="group-hover:text-opacity-100 opacity-100 transition-all duration-200 ease-linear text-opacity-75 text-white rounded-lg !w-[30px] !h-[30px]"/>
                             </div>

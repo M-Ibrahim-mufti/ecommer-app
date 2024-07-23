@@ -4,6 +4,7 @@ import '../../App.css'
 import './Product.css'
 import {ShoppingCartCheckoutOutlined, FilterAltOutlined, FilterAltOffOutlined, SearchOutlined} from "@mui/icons-material"
 import { toggleCartDrawer } from "../../utils/utils"
+import { Link } from "react-router-dom"
 const ShowAllProducts = (props) => {
     const [displayProduct, setDisplayProduct] = useState([])
     const [filteration, setFilteration] = useState([]);
@@ -77,10 +78,10 @@ const ShowAllProducts = (props) => {
                                     <img className="w-full h-40 img-shadow object-cover rounded-t-lg" src={product.Images[0]}/>
                                 </div>
                                 <div className="w-full flex justify-center relative bottom-5">
-                                    <h2 className="py-2 px-5 rounded-xl text-black bg-white shadow-xl" >{product.Category}</h2>
+                                    <h5 className="py-2 px-5 rounded-xl text-black bg-white shadow-xl" >{product.Category}</h5>
                                 </div>
                                 <div className="-mt-3 mx-4 h-28 flex flex-col gap-2" >
-                                    <h2 className="font-bold text-xl" >{product.Title}</h2>
+                                    <Link to={`/product/${product._id}`} className="font-bold text-xl" >{product.Title}</Link>
                                     <h2 className="text-black text-opacity-75 pb-4">{product.Description.split(' ').length <= 12 ? product.Description : product.Description.split(' ').slice(0, 12).join(' ') + ' ...'}</h2>
                                 </div>
                                 <div className="mx-4 mb-4">

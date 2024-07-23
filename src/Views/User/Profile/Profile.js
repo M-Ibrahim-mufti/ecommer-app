@@ -4,9 +4,11 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import BasicModal from '../../utils/Modal/Modal';
 import { AddAPhoto } from '@mui/icons-material';
+import SecuritySection from './ProfileComponent/SecuritySection';
+import PaymentDetailSection from './ProfileComponent/PaymentDetailSection';
 
 
-const Profile = () => {
+const Profile = (props) => {
     const { id } = useParams()
     const [user, setUserProfile] = useState(null);
     const [currentDetailSection, setCurrentDetailSection] = useState('Personal')
@@ -25,9 +27,10 @@ const Profile = () => {
             const url = process.env.REACT_APP_SERVER_URL + method
             const response = await axios.get(url, {params:{ id:id }} );
             console.log(response.data)
-            setUserProfile(response.data);
+            setUserProfile(response.data.user);
+            props.triggerNotification('success', response.data.message);
         } catch(error) {
-            console.log(error)
+            props.triggerNotification('success', error.response.data.message)
         }
     }
 
@@ -83,24 +86,8 @@ const Profile = () => {
         <section className='pt-20'> 
             <div className='container max-w-full mx-auto px-4'>
                 <div className='flex gap-3'>   
-                    <div className='w-1/4 border-2 rounded-lg '>
-                        <div className=' w-full flex flex-col'>
-                            <h2 className='text-center bg-primary py-3 px-4 rounded-t-[6px] font-bold text-white '> Select Detail </h2>
-                            <div className='flex flex-col'>
-                                <a onClick={() => setCurrentDetailSection('Personal')} className={`py-2 w-full text-center hover:bg-black hover:bg-opacity-40 hover:text-white transition-all duration-200 linear ${currentDetailSection === 'Personal' ? 'bg-black bg-opacity-40 text-white' : ''} `} >
-                                    <p>Personal Details</p> 
-                                </a>
-                                <a onClick={() => setCurrentDetailSection('Security')} className={`py-2 w-full text-center hover:bg-black hover:bg-opacity-40 hover:text-white transition-all duration-200 linear ${currentDetailSection === 'Security' ? 'bg-black bg-opacity-40 text-white' : ''} `}>
-                                    <p>Security Details</p> 
-                                </a>
-                                <a onClick={() => setCurrentDetailSection('Payment')} className={`py-2 w-full text-center hover:bg-black hover:bg-opacity-40 hover:text-white transition-all duration-200 linear ${currentDetailSection === 'Payment' ? 'bg-black bg-opacity-40 text-white' : ''} `}>
-                                    <p>Payment Details</p> 
-                                </a>
-                            </div>
-                        </div>
-                    </div> 
                     <div className='flex flex-col w-full'>
-                        <div className='w-full border-2 mb-4 rounded-lg '>
+                        <div className='w-full border mb-4 rounded-lg '>
                             <div className='bg-primary flex justify-between rounded-t-[6px] py-3'>
                                 <h2 className="ml-4 text-white font-bold" >My Details</h2>
                                 { changes && <button onClick={updateProfile} className='mr-4 bg-white text-black rounded-md font-bold px-5 py-1' >Save</button> }
@@ -115,11 +102,11 @@ const Profile = () => {
                                     <p className='text-muted font-bold text-lg'> 12 Total Products is uploaded by you </p>
                                 </div>
                                 <div className='w-1/6 flex flex-row justify-end items-start' >
-                                    <button onClick={() => {handleOpen(); setEditLabels('Image-Detail') }} className='py-2 px-4 mr-5 rounded-lg btn-shadows border-2 text-muted hover:text-black transition-color duration-200 ease-linear'>Edit</button>
+                                    <button onClick={() => {handleOpen(); setEditLabels('Image-Detail') }} className='py-2 px-4 mr-5 rounded-lg btn-shadows border text-muted hover:text-black transition-color duration-200 ease-linear'>Edit</button>
                                 </div>
                             </div>
                         </div>
-                        {currentDetailSection === "Personal" && <div className='w-full border-2 mb-4 rounded-lg'>
+                        <div className='w-full border mb-4 rounded-lg'>
                             <div className='bg-primary rounded-t-[6px] py-3'>
                                 <h2 className='ml-4 text-white font-bold'> My perosnal Detail </h2>
                             </div>
@@ -143,12 +130,11 @@ const Profile = () => {
                                     </div>
                                 </div>
                                 <div className='w-1/4 flex flex-row justify-end items-start'>
-                                    <button onClick={() => { handleOpen(); setEditLabels('Confidential-Detail')}} className='py-2 px-4 rounded-lg btn-shadows border-2 text-muted hover:text-black transition-color duration-200 ease-linear'>Edit</button>
+                                    <button onClick={() => { handleOpen(); setEditLabels('Confidential-Detail')}} className='py-2 px-4 rounded-lg btn-shadows border text-muted hover:text-black transition-color duration-200 ease-linear'>Edit</button>
                                 </div>
                             </div>
-                        </div> }
-
-                        { currentDetailSection === 'Personal' &&  <div className='w-full border-2 mb-4 rounded-lg'>
+                        </div>
+                        <div className='w-full border mb-4 rounded-lg'>
                             <div className='bg-primary rounded-t-[6px] py-3'>
                                 <h2 className='ml-4 text-white font-bold'> My Address Detail </h2>
                             </div>
@@ -172,10 +158,12 @@ const Profile = () => {
                                     </div>
                                 </div>
                                 <div className='w-1/4 flex flex-row justify-end items-start'>
-                                    <button onClick={() => { handleOpen(); setEditLabels('Location-Detail')}} className='py-2 px-4 rounded-lg btn-shadows border-2 text-muted hover:text-black transition-color duration-200 ease-linear'>Edit</button>
+                                    <button onClick={() => { handleOpen(); setEditLabels('Location-Detail')}} className='py-2 px-4 rounded-lg btn-shadows border text-muted hover:text-black transition-color duration-200 ease-linear'>Edit</button>
                                 </div>
                             </div>
-                        </div>}
+                        </div>
+                        <SecuritySection userId={id} triggerNotification={props.triggerNotification}/>
+                        <PaymentDetailSection userId={id} triggerNotification={props.triggerNotification}/>
                     </div>
                 </div>
             </div>

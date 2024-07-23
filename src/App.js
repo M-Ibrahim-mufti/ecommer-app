@@ -12,6 +12,7 @@ import Profile from './Views/User/Profile/Profile';
 import NewProduct from './Views/Product/NewProduct';
 import MyProductList from './Views/User/MyProduct/MyProduct';
 import NotficationMessages from './utils/notifications';
+import ShowProduct from './Views/Product/ShowProduct';
 
 function AppContent() {
     const [notification, setNotification] = useState({type:'', message:''});
@@ -78,6 +79,7 @@ function AppContent() {
                         <Route path='/product/add-product' element={current_user ? <NewProduct triggerNotification={triggerNotification}  current_user={current_user} /> : <Navigate to="/Authentication" />} />
                         <Route path='/user/profile/:id' element={current_user ? <Profile triggerNotification={triggerNotification}   /> : < Navigate to="/Authentication" /> } />
                         <Route path='/user/your-products/:id' element={current_user ? <MyProductList triggerNotification={triggerNotification} /> : <Navigate to='/Authentication' />} ></Route>
+                        <Route path='/product/:id' element={current_user ? <ShowProduct triggerNotification={triggerNotification}/> : <Navigate to='/Authetication' /> }></Route>
                     </Routes>
                 </div>
             </div>
