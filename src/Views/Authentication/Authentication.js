@@ -11,11 +11,8 @@ const Authentication = (props) => {
         const signInBox = document.getElementById('sign-in')
         const signUpBtn = document.getElementById('sign-up-btn-cont');
         const signInBtn = document.getElementById('sign-in-btn-cont');
-        const purpleBg = document.getElementById('purple-bg');
 
         if (event.target.textContent === 'Sign In'){
-            purpleBg.classList.remove('translate-x-0')
-            purpleBg.classList.add('translate-x-[1120px]', "transition-all", 'duration-1000', 'ease-linear');
             sideBox.classList.remove('side-box-right')
             sideBox.classList.add('side-box-left')
             signInBtn.classList.add('hidden')
@@ -32,8 +29,6 @@ const Authentication = (props) => {
             },350)
         } 
         if (event.target.textContent === 'Sign Up'){
-            purpleBg.classList.remove('translate-x-[1120px]')
-            purpleBg.classList.add('translate-x-0') 
             sideBox.classList.remove('side-box-left')
             sideBox.classList.add('side-box-right')
             signUpBtn.classList.add('hidden')
@@ -51,7 +46,6 @@ const Authentication = (props) => {
 
     return(
         <div className="w-screen overflox-x-hidden h-screen">
-            <div id="purple-bg" className="-z-10 absolute h-screen w-5/12 bg-primary"></div>
             <div className="w-screen h-screen flex justify-center items-center">
                 <div className="container max-w-4xl flex mx-auto rounded-[28px] h-[600px] shadows bg-secondary">
                     <div className="bg-primary max-w-[288px] w-full flex justify-center items-center rounded-l-3xl py-5 border-none">

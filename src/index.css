@@ -30,3 +30,7 @@ body {
 .btn-shadows {
     box-shadow: 0px 0px 4px 1px rgba(0,0,0,0.15);
 }
+
+.customize-scroll-bar {
+    scrollbar-width: thin;
+    scrollbar-color: #f1f1f1 white}

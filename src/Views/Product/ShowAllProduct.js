@@ -2,7 +2,7 @@ import axios from "axios"
 import React, { useEffect, useState } from "react"
 import '../../App.css'
 import './Product.css'
-import {ShoppingCartCheckoutOutlined, FilterAltOutlined, FilterAltOffOutlined, SearchOutlined} from "@mui/icons-material"
+import {ShoppingCartCheckoutOutlined, SearchOutlined} from "@mui/icons-material"
 import { toggleCartDrawer } from "../../utils/utils"
 import { Link } from "react-router-dom"
 const ShowAllProducts = (props) => {

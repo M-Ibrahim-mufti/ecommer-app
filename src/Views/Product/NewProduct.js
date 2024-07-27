@@ -132,15 +132,15 @@ const NewProduct = (props) => {
     }
 
     return (
-        <div className='py-16'>
+        <div className='w-full pt-20 flex items-center justify-center'>
             <div className='container max-w-full mx-auto'>
-                <div className='mt-4 mb-3 mx-4 py-3   rounded-2xl bg-secondary flex justify-between'>
+                <div className='mt-4 mb-3 mx-4 py-3 rounded-2xl bg-secondary flex justify-between'>
                     <h5 className='font-extrabold text-2xl tracking-wide mx-4'>Add New Product</h5>
                     <button disabled={addDisabled} onClick={addProduct} className={`py-2 px-5 bg-primary rounded-full mr-4 text-white ${addDisabled ? 'opacity-50' : ''}`}>Add Product</button>
                 </div>
                 <div className='flex flex-row mx-4 gap-4'>
                     <div className='w-2/3'>
-                        <div className='bg-secondary   rounded-2xl px-5 py-5 mb-3'>
+                        <div className='bg-secondary rounded-2xl px-5 py-5 mb-3'>
                             <h2 className='mb-3 text-xl font-bold'>Add Product Info</h2>
                             <div className='flex flex-col gap-2 mb-3'>
                                 <label className='font-bold'>Product Name</label>
@@ -192,7 +192,7 @@ const NewProduct = (props) => {
                                         <p className='text-muted'>Choose Color of your product</p>
                                     </div>
                                     <input name='Colors' type='text' placeholder='Enter Colors kindly seperate it with commas' className='rounded-lg search-field-shadow py-2 px-4 bg-white w-full'/>
-                                </div>) : (<div></div>)}
+                                </div>) : null}
                             </div>
                         </div>
                         <div className='bg-secondary rounded-2xl   px-5 py-5'>

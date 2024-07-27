@@ -110,7 +110,7 @@ const Sidebar = (props) => {
                         <h2 className="w-2/5 text-white text-opacity-50 text-center">Components</h2>
                         <hr className="w-1/4 opacity-50" />
                     </div>
-                    <div className="mb-3 gap-4 flex flex-col">
+                    <div className="mb-3 gap-2 flex flex-col">
                         <Link to="/" className="group flex justify-start gap-3 px-3 py-2 rounded-lg items-center hover:bg-black hover:bg-opacity-20 transition-all duration-300 ease-linear">
                             <div className="w-1/5 text-center">
                                 <GridViewOutlined className="group-hover:text-opacity-100 opacity-100 transition-all duration-200 ease-linear text-opacity-75 text-white rounded-lg !w-[30px] !h-[30px]"/>

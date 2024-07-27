@@ -1,5 +1,6 @@
 import React from "react";
 import DashHeader from "./DashComponents/Header";
+import HeaderImage from '../../Assets/product image/pngegg.png' 
 import EmblemSections from "./DashComponents/Sections";
 const Dashboard = () => {
     return (

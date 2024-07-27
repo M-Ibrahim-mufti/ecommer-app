@@ -40,6 +40,9 @@ function AppContent() {
                 } else {
                     console.log("status", err.response.status);
                 }
+            } else {
+                setCurrent_User(null);
+                navigate('/')
             }
         }
     }
