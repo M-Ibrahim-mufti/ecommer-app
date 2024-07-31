@@ -3,13 +3,34 @@
 @tailwind utilities;
 
 :root {
-    --primary-bg-color:rgb(43,43,40);
+    --primary-bg-color:rgb(49, 140, 231);
+    --primary-bg-light-color: rgba(49, 140, 231, 0.451);
     --secondary-bg-color:#f2f5f7;
 }
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
 
 .bg-primary{
     background-color: var(--primary-bg-color);
 }
+
+.bg-primary-mid-dark {
+    background-color: var(--primary-bg-mid-color);
+}
+
+.bg-primary-light {
+    background-color: var(--primary-bg-light-color);
+}
+
 .bg-secondary{
     background-color: var(--secondary-bg-color);
 }
@@ -33,4 +54,5 @@ body {
 
 .customize-scroll-bar {
     scrollbar-width: thin;
-    scrollbar-color: #f1f1f1 white}
+    scrollbar-color: white #f1f1f1
+}

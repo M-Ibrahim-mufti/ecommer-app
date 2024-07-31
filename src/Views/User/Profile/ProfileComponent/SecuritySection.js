@@ -35,24 +35,24 @@ const SecuritySection = (props) => {
     }
 
     return (
-        <div className='w-full border mb-4 rounded-lg'>
+        <div className='w-[49%]'>
             <div className='bg-primary rounded-t-[6px] py-3'>
                 <h2 className='ml-4 text-white font-bold'> Security Detail </h2>
             </div>
-            <div className='flex flex-col mx-5 my-5'>
+            <div className='flex flex-col px-5 py-5 border-l border-r border-b rounded-lg'>
                 <h2 className='text-2xl mb-3 text-muted-dark font-extrabold'> Change your password </h2>
                 <div className='flex flex-col mb-3'>
                     <div className="mb-4">
                         <label htmlFor="CurrentPassword" className="block text-md font-medium text-gray-700">Enter Current Password</label>
-                        <input onChange={setFields} type="password" name='currentPassword' className="mt-1 block w-2/5 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"/>
+                        <input onChange={setFields} type="password" name='currentPassword' className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"/>
                     </div>
                     <div className="mb-4">
                         <label htmlFor="NewPassoword" className="block text-md font-medium text-gray-700">Enter New Password</label>
-                        <input onChange={setFields} type="password" name='newPassword' className="mt-1 block w-2/5 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"/>
+                        <input onChange={setFields} type="password" name='newPassword' className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"/>
                     </div>
                     <div className="mb-4">
                         <label htmlFor="ReNewPassword" className="block text-md font-medium text-gray-700">Re-Enter New Password</label>
-                        <input onChange={setFields} type="password" name='reNewPassword' className="mt-1 block w-2/5 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"/>
+                        <input onChange={setFields} type="password" name='reNewPassword' className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"/>
                     </div>
                 </div>
                 <div className='mb-3'>

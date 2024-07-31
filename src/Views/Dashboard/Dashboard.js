@@ -6,9 +6,9 @@ const Dashboard = () => {
     return (
         <div className="py-14">
             <DashHeader/>
-            <div className="w-full py-5 bg-white">
+            {/* <div className="w-full py-5 bg-white">
                 <EmblemSections/>
-            </div>
+            </div> */}
 
         </div>
     );

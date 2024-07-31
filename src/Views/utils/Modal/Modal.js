@@ -4,19 +4,31 @@ import Backdrop from '@mui/material/Backdrop';
 import Fade from '@mui/material/Fade'
 import Modal from '@mui/material/Modal';
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 700,
-  bgcolor: 'background.paper',
-  boxShadow: 24,
-  borderRadius: 2
+// const style = {
+//   position: 'absolute',
+//   top: '50%',
+//   left: '50%',
+//   transform: 'translate(-50%, -50%)',
+//   width: 700,
+//   bgcolor: 'background.paper',
+//   boxShadow: 24,
+//   borderRadius: 2
   
-};
+// };
 
 export default function BasicModal(props) {
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: props.width,
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    borderRadius: 2
+    
+  };
+
     const [open, setOpen] = React.useState(false);
     const handleClose = () => {
         setOpen(false)

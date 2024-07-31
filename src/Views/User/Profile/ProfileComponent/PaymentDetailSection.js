@@ -76,6 +76,8 @@ const PaymentDetailSection = (props) => {
                     }
                 }
             ) 
+
+            console.log(response)
             const reStatedExpiry = new Date(response.data.details.ExpiryDate)
             setCardDetails({
                 ...response.data.details,
@@ -102,40 +104,39 @@ const PaymentDetailSection = (props) => {
     }
 
     return(
-        <div className='w-full border mb-4 rounded-lg'>
+        <div className='w-[49%] border mb-4 rounded-lg'>
             <div className='bg-primary rounded-t-[6px] py-3'>
                 <h2 className='ml-4 text-white font-bold'> Payment Detail </h2>
             </div>
-            <div className='flex flex-col w-2/5 ml-5 my-5'>
-                <div className='flex gap-4 mb-4'>
-                    <img src={MasterCard} className={`w-14 h-9 rounded-md object-cover ${cardType === 'Master' ? 'border-2 border-green-500' : 'opacity-50'} `}/>
-                    <img src={VisaCard} className={`w-14 h-9 rounded-md object-cover ${cardType === 'Visa' ? 'border-2 border-green-500' : 'opacity-50'} `}/>
+            <div className='flex flex-row flex-wrap justify-between w-full px-5 my-5'>
+                <div className='w-full flex gap-4 mb-2'>
+                    <img src={MasterCard} className={`w-14 h-9 rounded-md object-cover ${cardType === 'Master' || cardDetails.CardType === 'MasterCard' ? 'border-2 border-green-500' : 'opacity-50'} `}/>
+                    <img src={VisaCard} className={`w-14 h-9 rounded-md object-cover ${cardType === 'Visa' || cardType.CardType === 'VisaCard' ? 'border-2 border-green-500' : 'opacity-50'} `}/>
                 </div>
-                <div className="mb-4">
+                <div className="w-full mb-4">
                     <label htmlFor="CardHolderName" className="block text-md font-medium text-gray-700">Name on Card</label>
                     <input onChange={setFields} type="text"  name='HolderName' disabled={cardDetails.NameOnCard ? true : false} defaultValue={cardDetails.NameOnCard} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"/>
                 </div>
-                <div className="mb-4">
+                <div className="w-full mb-4">
                     <label htmlFor="CardNumber" className="block text-md font-medium text-gray-700">Card Number</label>
                     <input onChange={setFields} type="text"  name='CardNumber' disabled={cardDetails.CardNumber ? true : false} defaultValue={cardDetails.CardNumber} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"/>
                 </div>
-                <div className="mb-4">
+                <div className="w-[49%] mb-4">
                     <label htmlFor="CardExpiry" className="block text-md font-medium text-gray-700">Expiry Date</label>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DatePicker onChange={expirySet} name='Expiry' disabled={cardDetails.ExpiryDate ? true : false} value={cardDetails.ExpiryDate} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" format='MM/yyyy' views={['month', 'year']} />
                     </LocalizationProvider>
                 </div> 
-                <div className="mb-4">
+                <div className="w-[49%] mb-[28px]">
                     <label htmlFor="CardCvv" className="block text-md font-medium text-gray-700">CVV</label>
-                    <input onChange={setFields} type="text" name='CVV' disabled={cardDetails.Cvv ? true : false} defaultValue={cardDetails.Cvv} maxLength={4} minLength={3} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"/>
+                    <input onChange={setFields} type="text" name='CVV' disabled={cardDetails.Cvv ? true : false} defaultValue={cardDetails.Cvv} maxLength={4} minLength={3} className="block w-full px-3 pb-2 pt-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"/>
                 </div>
                 <div className='mb-4'>
-                    <button onClick={submitPaymentDetails} className='px-7 py-2 bg-primary rounded-lg text-muted font-semibold hover:text-white hover:font-bold transition-all duration-300 ease-linear' > Change Password </button>
+                    <button onClick={submitPaymentDetails} className='px-7 py-2 bg-primary rounded-lg text-white text-opacity-75 font-semibold hover:text-opacity-100 hover:font-bold transition-all duration-300 ease-linear' > Change Password </button>
                 </div>
             </div>
         </div>
     )
 }
-//  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
 
 export default PaymentDetailSection

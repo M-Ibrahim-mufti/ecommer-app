@@ -86,7 +86,7 @@ const Profile = (props) => {
         <section className='pt-20'> 
             <div className='container max-w-full mx-auto px-4'>
                 <div className='flex gap-3'>   
-                    <div className='flex flex-col w-full'>
+                    <div className='flex justify-between flex-row flex-wrap w-full'>
                         <div className='w-full border mb-4 rounded-lg '>
                             <div className='bg-primary flex justify-between rounded-t-[6px] py-3'>
                                 <h2 className="ml-4 text-white font-bold" >My Details</h2>
@@ -106,7 +106,7 @@ const Profile = (props) => {
                                 </div>
                             </div>
                         </div>
-                        <div className='w-full border mb-4 rounded-lg'>
+                        <div className='w-[49%] border mb-4 rounded-lg'>
                             <div className='bg-primary rounded-t-[6px] py-3'>
                                 <h2 className='ml-4 text-white font-bold'> My perosnal Detail </h2>
                             </div>
@@ -134,7 +134,7 @@ const Profile = (props) => {
                                 </div>
                             </div>
                         </div>
-                        <div className='w-full border mb-4 rounded-lg'>
+                        <div className='w-[49%] border mb-4 rounded-lg'>
                             <div className='bg-primary rounded-t-[6px] py-3'>
                                 <h2 className='ml-4 text-white font-bold'> My Address Detail </h2>
                             </div>
@@ -162,12 +162,15 @@ const Profile = (props) => {
                                 </div>
                             </div>
                         </div>
-                        <SecuritySection userId={id} triggerNotification={props.triggerNotification}/>
-                        <PaymentDetailSection userId={id} triggerNotification={props.triggerNotification}/>
+                        <div className='w-full flex justify-between gap-4'>
+                            <PaymentDetailSection userId={id} triggerNotification={props.triggerNotification}/>
+                            <SecuritySection userId={id} triggerNotification={props.triggerNotification}/>
+                        </div>
                     </div>
                 </div>
             </div>
             <BasicModal 
+                width={700}
                 open={open} 
                 handleClose={handleClose}
                 Header={

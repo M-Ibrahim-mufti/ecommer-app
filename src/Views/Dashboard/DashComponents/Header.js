@@ -5,7 +5,6 @@ import HeaderImage from '../../../Assets/DashHeader.png'
 const DashHeader = () => {
     return(
         <div className='w-full relative '>
-            <img className='brightness-50 h-[600px] w-full object-cover' src={HeaderImage}/>
             <div className='text-white absolute z-10 header-text'>
                 <div className='container max-w-xl text-center'>
                     <h2 className='text-4xl font-bold'>Welcome To <span className="italic">E-APP</span></h2>

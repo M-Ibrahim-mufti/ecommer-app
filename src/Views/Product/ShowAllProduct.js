@@ -55,8 +55,8 @@ const ShowAllProducts = (props) => {
     return (
         <div className="pt-20">
             <div className=" container max-w-full mx-auto">
-                <div className="border bg-secondary rounded-lg mx-3">
-                    <div className="w-full flex flex-row items-center py-4 px-4 border-b">
+                <div className="bg-secondary rounded-lg mx-3">
+                    <div className="w-full flex flex-row border-b items-center py-4 px-4">
                         <h2 className="w-1/2 text-2xl font-bold">Products</h2>
                         <div className="w-1/2 flex justify-end">
                             <button onClick={toggleCartFuntionality} className="group flex items-center gap-2 bg-primary py-3 px-6 button-bg rounded-xl transition-all duration-300 ease-linear">
@@ -66,14 +66,14 @@ const ShowAllProducts = (props) => {
                         </div>
                     </div>
                     <div className="w-full py-4 flex justify-start px-4 border-b">
-                        <div onClick={() => setToggleSearch(!toggleSearch)} className={`cursor-pointer px-4 py-3 bg-primary transition-all duraion-300 ease-linear ${toggleSearch ? 'rounded-l-lg' : 'rounded-lg'} `}>
-                            <SearchOutlined  className="text-muted-dark" />
+                        <div onClick={() => setToggleSearch(!toggleSearch)} className={`cursor-pointer px-4 py-3 bg-white transition-all duraion-300 ease-linear ${toggleSearch ? 'rounded-l-lg' : 'rounded-lg'} `}>
+                            <SearchOutlined  className="text-gray-700" />
                         </div>
                         <input type="search" onChange={filterProducts} className={`bg-white rounded-r-xl ${toggleSearch ? 'search-field-shadow px-4 py-3 w-1/2' : 'w-0' } transition-all duration-300 ease-linear`}/>
                     </div>
                     <div className="py-4 px-4 grid grid-cols-4 gap-8">
                         { filteration.map((product, index) => (
-                            <div key={`product ${index +1 }`} className="w-full bg-white border rounded-xl relative">
+                            <div key={`product ${index +1 }`} className="w-full bg-white  rounded-xl relative">
                                 <div className="bg-primary rounded-t-xl">
                                     <img className="w-full h-40 img-shadow object-cover rounded-t-lg" src={product.Images[0]}/>
                                 </div>

@@ -135,27 +135,27 @@ const NewProduct = (props) => {
         <div className='w-full pt-20 flex items-center justify-center'>
             <div className='container max-w-full mx-auto'>
                 <div className='mt-4 mb-3 mx-4 py-3 rounded-2xl bg-secondary flex justify-between'>
-                    <h5 className='font-extrabold text-2xl tracking-wide mx-4'>Add New Product</h5>
-                    <button disabled={addDisabled} onClick={addProduct} className={`py-2 px-5 bg-primary rounded-full mr-4 text-white ${addDisabled ? 'opacity-50' : ''}`}>Add Product</button>
+                    <h5 className='font-extrabold text-2xl text-gray-500 tracking-wide mx-4'>Add New Product</h5>
+                    <button disabled={addDisabled} onClick={addProduct} className={`py-2 px-5 bg-primary rounded-lg mr-4 text-white ${addDisabled ? 'opacity-50' : ''}`}>Add Product</button>
                 </div>
                 <div className='flex flex-row mx-4 gap-4'>
                     <div className='w-2/3'>
                         <div className='bg-secondary rounded-2xl px-5 py-5 mb-3'>
-                            <h2 className='mb-3 text-xl font-bold'>Add Product Info</h2>
+                            <h2 className='mb-3 text-xl  text-gray-500 font-bold'>Add Product Info</h2>
                             <div className='flex flex-col gap-2 mb-3'>
-                                <label className='font-bold'>Product Name</label>
-                                <input onChange={fillData} name='Title' placeholder='Enter Product Title' className='rounded-lg search-field-shadow py-2 px-4 bg-white w-full'></input>
+                                <label className='font-bold text-gray-500 '>Product Name</label>
+                                <input onChange={fillData} name='Title' placeholder='Enter Product Title' className='rounded-lg input-bg-color search-field-shadow py-2 px-4 bg-primary w-full'></input>
                             </div>
                             <div className='flex flex-col gap-2 mb-3'>
-                                <label className='font-bold'>Product Description</label>
-                                <textarea onChange={fillData} name='Description' placeholder='Enter Detailed Description About Product' className='rounded-lg max-h-full resize-none h-28 search-field-shadow py-2 px-4 bg-white w-full'></textarea>
+                                <label className='text-gray-500 font-bold'>Product Description</label>
+                                <textarea onChange={fillData} name='Description' placeholder='Enter Detailed Description About Product' className='rounded-lg input-bg-color max-h-full resize-none h-28 search-field-shadow py-2 px-4 bg-white w-full'></textarea>
                             </div>
                             <div className='flex flex-row gap-2 mb-3'>
                                 {product.Category === "Clothing" ?
                                     (<div className='w-1/2 flex flex-col gap-2'>
                                         <div className='mb-2'>
-                                            <label className='font-bold'> Select Available Sizes </label>
-                                            <p className='text-muted'>Please Select the sizes that are available</p>
+                                            <label className='font-bold text-gray-500'> Select Available Sizes </label>
+                                            <p className='text-gray-500 text-opacity-75'>Please Select the sizes that are available</p>
                                         </div>
                                         <ul className='flex flex-row gap-5'>
                                             <li onClick={selectionBox} className='w-12 h-12 cursor-pointer flex items-center justify-center rounded-md bg-white'>XS</li>
@@ -168,8 +168,8 @@ const NewProduct = (props) => {
                                     </div>) : product.Category === 'Footwear' ? (
                                         <div className='w-1/2 flex flex-col gap-2'>
                                             <div className='mb-2'>
-                                                <label className='font-bold'> Select Available Sizes </label>
-                                                <p className='text-muted'>Please Select the sizes that are available</p>
+                                                <label className='font-bold text-gray-500'> Select Available Sizes </label>
+                                                <p className='text-gray-500 text-opacity-75'>Please Select the sizes that are available</p>
                                             </div>
                                             <ul className='flex flex-row gap-5'>
                                                 <li onClick={selectionBox} className='w-12 h-12 cursor-pointer flex items-center justify-center rounded-md bg-white'>36</li>
@@ -188,32 +188,32 @@ const NewProduct = (props) => {
                                 {product.Category ==="Clothing" || product.Category ==="Footwear" ? 
                                 (<div className='w-1/2 flex flex-col gap-4'>
                                     <div className='mb-2'>
-                                        <label className='font-bold'>Select Colors</label>
-                                        <p className='text-muted'>Choose Color of your product</p>
+                                        <label className='font-bold text-gray-500'>Select Colors</label>
+                                        <p className='text-gray-500 text-opacity-75'>Choose Color of your product</p>
                                     </div>
                                     <input name='Colors' type='text' placeholder='Enter Colors kindly seperate it with commas' className='rounded-lg search-field-shadow py-2 px-4 bg-white w-full'/>
                                 </div>) : null}
                             </div>
                         </div>
-                        <div className='bg-secondary rounded-2xl   px-5 py-5'>
+                        <div className='bg-secondary rounded-2xl px-w py-5'>
                             <div className='flex flex-col flex-wrap gap-4 mx-4'>
-                                <h5 className='font-bold text-xl'>Pricing & Quantity</h5>
-                                <div className='flex flex-wrap gap-4'>
+                                <h5 className='font-bold text-xl text-gray-500 '>Pricing & Quantity</h5>
+                                <div className='flex flex-wrap justify-between'>
                                     <div className='w-[49%] flex flex-col gap-2 mb-3'>
-                                        <label className='font-bold'>Price per Item</label>
-                                        <input name='Price' onChange={fillData} placeholder='Enter Per item price' type='text' className='rounded-lg search-field-shadow py-2 px-4 bg-white w-full'/>
+                                        <label className='font-bold text-gray-500'>Price per Item</label>
+                                        <input name='Price' onChange={fillData} placeholder='Enter Per item price' type='text' className='rounded-lg input-bg-color search-field-shadow py-2 px-4 bg-white w-full'/>
                                     </div>
                                     <div className='w-[49%] flex flex-col gap-2 mb-3'>
-                                        <label className='font-bold'>Quantity</label>
-                                        <input name='Quantity' onChange={fillData} placeholder='Enter Total Quantity of Product' type='text' className='rounded-lg search-field-shadow py-2 px-4 bg-white w-full'/>
+                                        <label className='font-bold text-gray-500'>Quantity</label>
+                                        <input name='Quantity' onChange={fillData} placeholder='Enter Total Quantity of Product' type='text' className='rounded-lg input-bg-color search-field-shadow py-2 px-4 bg-white w-full'/>
                                     </div>
                                     <div className='w-[49%] flex flex-col gap-2 mb-3'>
-                                        <label className='font-bold'>Quantity in Bulk</label>
-                                        <input name='Bulk.Quantity' onChange={fillData} placeholder='Enter Quantity in Bulk' type='text' className='rounded-lg search-field-shadow py-2 px-4 bg-white w-full'/>
+                                        <label className='font-bold text-gray-500'>Quantity in Bulk</label>
+                                        <input name='Bulk.Quantity' onChange={fillData} placeholder='Enter Quantity in Bulk' type='text' className='rounded-lg input-bg-color search-field-shadow py-2 px-4 bg-white w-full'/>
                                     </div>
                                     <div className='w-[49%] flex flex-col gap-2 mb-3'>
-                                        <label htmlFor='BulkPrice' className='font-bold'>Price in Bulk</label>
-                                        <input name='Bulk.Price' onChange={fillData} placeholder='Enter Price of Bulk' type='text' className='rounded-lg search-field-shadow py-2 px-4 bg-white w-full'/>
+                                        <label htmlFor='BulkPrice' className='font-bold text-gray-500'>Price in Bulk</label>
+                                        <input name='Bulk.Price' onChange={fillData} placeholder='Enter Price of Bulk' type='text' className='rounded-lg input-bg-color search-field-shadow py-2 px-4 bg-white w-full'/>
                                     </div>
                                 </div>
                             </div>
@@ -222,7 +222,7 @@ const NewProduct = (props) => {
                     </div>
                     <div className='w-1/3'>
                         <div className='bg-secondary rounded-2xl px-5 py-5 mb-3'>
-                            <h2 className='mb-3 text-xl font-bold'>Upload Images</h2>
+                            <h2 className='mb-3 text-xl font-bold text-gray-500'>Upload Images</h2>
                             <div className=''>
                                 <input onChange={selectImages} type='file' id='productImage' multiple accept='image/*' hidden />
                                 <div className='w-full mb-3 h-[300px] border border-dotted rounded-lg flex items-center justify-center'>
@@ -238,11 +238,11 @@ const NewProduct = (props) => {
                                 </div>
                             </div>
                         </div>
-                        <div className='bg-secondary   rounded-2xl px-5 py-5'>
+                        <div className='bg-secondary rounded-2xl px-5 py-5'>
                             <div className='flex flex-col gap-2'>
                                 <div className='w-full' >
-                                    <label>Select Category</label>
-                                    <select onChange={fillData} value={product.Category} name='Category' className='px-4 w-full bg-white shawdow-inner py-4 rounded-lg'>
+                                    <label className="text-gray-500 font-bold">Select Category</label>
+                                    <select onChange={fillData} value={product.Category} name='Category' className='px-4 mt-3 w-full input-bg-color shawdow-inner py-4 rounded-lg'>
                                         <option value='' disabled >Select Category</option>
                                         <option value='Clothing' >Clothing</option>
                                         <option value='Footwear' >Footwear</option>
