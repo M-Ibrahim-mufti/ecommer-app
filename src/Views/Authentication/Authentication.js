@@ -59,10 +59,10 @@ const Authentication = (props) => {
                         </div>
                     </div>
                     <div id="sign-up" className="flex justify-center w-full py-5">
-                        <SignUp triggerNotification={props.triggerNotification} />
+                        <SignUp />
                     </div>
                     <div id="sign-in" className="hidden justify-center w-full py-5">
-                        <SignIn triggerNotification={props.triggerNotification} />
+                        <SignIn />
                     </div>
                 </div>
             </div>

@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import './Product.css';
 import { AddOutlined } from '@mui/icons-material';
+import { useDispatch, useSelector } from 'react-redux';
+import { setNotification } from '../../slicer/notificationSlicer'
 import axios from 'axios';
+import './Product.css';
 
 const NewProduct = (props) => {
+
+    const currentUser = useSelector((state) => state.user);
+    const dispatch = useDispatch()
     const [product, setProduct] = useState({
         Title:'',
         Description:'',
@@ -20,13 +25,15 @@ const NewProduct = (props) => {
         },
         User:'',
     });
-
     const [bulk, setBulkFields] = useState({
         Quantity:0,
         Price:0,
     }) 
+    const [preview, setPreviews] = useState()
+    const [addDisabled, setAddDisabled] = useState(true)
 
     useEffect(() => {
+        console.log(currentUser);
         if(product.Title !== '' && product.Description !== '' && product.Category !== '' && product.Quantity !== 0 && product.Price !== 0 && product.Images.length > 0) {
             if(product.Category === 'Clothing') {
                 product.ShoeSizes = null
@@ -40,8 +47,6 @@ const NewProduct = (props) => {
         }
     },[product])
     
-    const [preview, setPreviews] = useState()
-    const [addDisabled, setAddDisabled] = useState(true)
 
     const selectionBox = (event) => {
         const checkbox = event.target;
@@ -108,10 +113,10 @@ const NewProduct = (props) => {
             const method = '/product/Add-product';
             const url = process.env.REACT_APP_SERVER_URL + method;
             const response = await axios.post(url, product)
-            props.triggerNotification('success', response.data.message)
+            dispatch(setNotification({type:'success', message: response.data.message }))
 
         }catch(error) {
-            props.triggerNotification('danger', error.response.data.message);
+            dispatch(setNotification({type:'danger', message:error.response?.data?.message || error.message}))
         }
     }
 

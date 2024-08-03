@@ -4,6 +4,7 @@ import VisaCard from '../../../../Assets/CardLogos/visa-card.svg'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DatePicker } from '@mui/x-date-pickers'
+import { useSelector } from 'react-redux'
 import '../Profile.css'
 import axios from 'axios';
 
@@ -15,9 +16,8 @@ const PaymentDetailSection = (props) => {
         Cvv:'',
         CardType:''
     });
-
     const [cardType, setCardType] = useState("");
-
+    const userId = useSelector((state) => state.user.user_id);
 
     const setFields = (event) => {
         setCardDetails((prevDetails) => ({
@@ -52,12 +52,12 @@ const PaymentDetailSection = (props) => {
     const submitPaymentDetails = async () => {
         try {
             cardDetails.Type = cardType
-            if(cardDetails.CardNumber.length !== 16 || (cardDetails.CVV.length <= 3 && cardDetails.length >=4)) {
+            if(cardDetails.CardNumber.length !== 16 || (cardDetails.Cvv.length <= 3 && cardDetails.length >=4)) {
                 throw new Error('Invalid Card Details')
             }
             const method = '/card/add-details'
             const url = process.env.REACT_APP_SERVER_URL + method
-            const response = await axios.post(url, {card:cardDetails, id:props.userId});
+            const response = await axios.post(url, {card:cardDetails, id:userId});
             props.triggerNotification('success', response.data.message)
             
         } catch(error) {
@@ -72,23 +72,22 @@ const PaymentDetailSection = (props) => {
             const response = await axios.get(url, 
                 {
                     params:{
-                        id: props.userId
+                        id: userId
                     }
                 }
             ) 
-
-            console.log(response)
             const reStatedExpiry = new Date(response.data.details.ExpiryDate)
             setCardDetails({
                 ...response.data.details,
                 CardNumber: hiddenCardNumber(response.data.details.CardNumber),
                 ExpiryDate: reStatedExpiry,
                 Cvv: hiddenCvvNumber()
-
             })
+            console.log('payment section')
+
 
         } catch(error) {
-
+            console.log(error)
         }
     }
 

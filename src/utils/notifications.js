@@ -1,4 +1,6 @@
 import {useState, useEffect} from 'react';
+import { Close, Done, PriorityHigh } from '@mui/icons-material'
+
 
 const NotficationMessages = (props) => {
     
@@ -8,12 +10,9 @@ const NotficationMessages = (props) => {
     useEffect(() => {
         if(props.type) {
            setMessageType(props.type)
-           console.log('triggered')
         }
         if (props.message) {
             setMessage(props.message)
-            console.log('triggered')
-
         }
         setTimeout(() => {
             setMessageType('');
@@ -24,10 +23,13 @@ const NotficationMessages = (props) => {
 
     return (
         <div id="notification" className={`top-4 z-50 right-5 fixed rounded-lg transition-all duration-300 linear ${message === '' && messageType === '' ? 'opacity-0' : 'opacity-1'}
-        bg-opacity-50 ${messageType === 'success' ? 'bg-green-300' : messageType === 'danger' ? 'bg-red-300' : messageType === 'warning' ? 'bg-yellow-300' : ''}
+         ${messageType === 'success' ? 'bg-green-600' : messageType === 'danger' ? 'bg-red-600' : messageType === 'warning' ? 'bg-yellow-600' : ''}
         `}>
             <div className={`py-5 px-4 `}>
-                <h5>{message}</h5>
+                <h5 className='text-white flex items-center '>
+                    {messageType === 'success' ? <Done className='text-green-800 mr-3'/> : messageType === 'danger' ? <Close className="text-red-800"/> : messageType === 'warning' ? <PriorityHigh className='text-yellow-800'/> : null }    
+                    {message}
+                </h5>
             </div>
         </div>
     )

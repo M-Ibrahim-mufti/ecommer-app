@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar } from "@mui/material";
 import { GridViewOutlined, ShoppingBagOutlined,AddBoxOutlined ,Menu, Close, FormatListBulleted } from "@mui/icons-material"
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Sidebar = (props) => {
+
+    const currentUser = useSelector((state) => state.user)
     const [sideState, setSideState] = useState(true);
     
 
@@ -87,20 +90,20 @@ const Sidebar = (props) => {
 
     return (
         <div id="sideBarCont" className="flex-shrink-0 w-64 overflow-hidden z-[51] sticky top-0 h-screen transition-all duration-300 ease-linear">
-            <aside className="h-full bg-primary flex flex-col">
+            <aside className="h-full bg-[rgb(43,43,40)] flex flex-col rounded-tr-md rounded-br-md">
                 <div className="text-right flex items-center justify-end py-2 px-4 ">
                     <button className="group p-2 hover:bg-black hover:bg-opacity-20 transition-all duration-300 ease-linear rounded-lg" onClick={toggleSidebar} >
                         { sideState ? <Close className="group-hover:text-opacity-100 text-white text-opacity-75 !w-[35px] !h-[35px]"/> : <Menu className="group-hover:text-opacity-100 text-white text-opacity-75 !w-[35px] !h-[35px]"/>  }
                     </button>
                 </div>
-                <Link to={`/user/profile/${props.user.user.user_id}`} id="sideUserDetail" className="cursor-pointer mt-4 p-4 mx-2 hover:bg-black hover:bg-opacity-20 transition-all duration-300 ease-linear rounded-lg">
+                <Link to={`/user/profile/${currentUser.user_id}`} id="sideUserDetail" className="cursor-pointer mt-4 p-4 mx-2 hover:bg-black hover:bg-opacity-20 transition-all duration-300 ease-linear rounded-lg">
                     <div className="flex gap-6 items-center">
                         <div className="w-1/6">
-                            <Avatar className="border-2 border-pink-400 !w-[50px] !h-[50px] font-bold !bg-white !text-black" > {props.user.user.UserName.charAt(0).toUpperCase()} </Avatar>
+                            <Avatar className="border-2 border-pink-400 !w-[50px] !h-[50px] font-bold !bg-white !text-black" > {currentUser.UserName.charAt(0).toUpperCase()} </Avatar>
                         </div>
                         <div className="w-auto text-white">
-                            <h2 className="font-extrabold">{props.user.user.UserName}</h2>
-                            <p className="text-white text-sm text-opacity-75">{props.user.user.Email}</p>
+                            <h2 className="font-extrabold">{currentUser.UserName}</h2>
+                            <p className="text-white text-sm text-opacity-75">{currentUser.Email}</p>
                         </div>
                     </div>
                 </Link>
@@ -123,15 +126,15 @@ const Sidebar = (props) => {
                             </div>
                             <h2 className="group-hover:text-opacity-100 transition-all duration-200 ease-linear w-3/5 text-opacity-75 text-white font-bold tracking-wider">All Product</h2>
                         </Link>
-                        { props.user.user.Role !== 'Buyer' &&  
+                        { currentUser.Role !== 'Buyer' &&  
                         <Link to="/product/add-product" className="group flex justify-start gap-3 px-3 py-2 rounded-lg items-center hover:bg-black hover:bg-opacity-20 transition-all duration-300 ease-linear">
                             <div className="w-1/5 text-center">
                                 <AddBoxOutlined className="group-hover:text-opacity-100 opacity-100 transition-all duration-200 ease-linear text-opacity-75 text-white rounded-lg !w-[30px] !h-[30px]"/>
                             </div>
                             <h2 className="group-hover:text-opacity-100 transition-all duration-200 ease-linear w-3/5 text-opacity-75 text-white font-bold tracking-wider">Add Product</h2>
                         </Link>}
-                        { props.user.user.Role !== 'Buyer' &&  
-                        <Link  to={`/user/your-products/${props.user.user.user_id}`} className="group flex justify-start gap-3 px-3 py-2 rounded-lg items-center hover:bg-black hover:bg-opacity-20 transition-all duration-300 ease-linear">
+                        { currentUser.Role !== 'Buyer' &&  
+                        <Link  to={`/user/your-products/${currentUser.user_id}`} className="group flex justify-start gap-3 px-3 py-2 rounded-lg items-center hover:bg-black hover:bg-opacity-20 transition-all duration-300 ease-linear">
                             <div className="w-1/5 text-center">
                                 <FormatListBulleted className="group-hover:text-opacity-100 opacity-100 transition-all duration-200 ease-linear text-opacity-75 text-white rounded-lg !w-[30px] !h-[30px]"/>
                             </div>

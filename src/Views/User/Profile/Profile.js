@@ -6,31 +6,38 @@ import BasicModal from '../../utils/Modal/Modal';
 import { AddAPhoto } from '@mui/icons-material';
 import SecuritySection from './ProfileComponent/SecuritySection';
 import PaymentDetailSection from './ProfileComponent/PaymentDetailSection';
+import { useDispatch, useSelector } from 'react-redux';
+import { setNotification } from '../../../slicer/notificationSlicer'
+import { showLoader, hideLoader } from '../../../slicer/lodaerSlicer';
 
-
-const Profile = (props) => {
+const Profile = () => {
     const { id } = useParams()
     const [user, setUserProfile] = useState(null);
     const [currentDetailSection, setCurrentDetailSection] = useState('Personal')
     const [open, setOpen] = useState(false)
     const [changes, setChanges] = useState(false)
     const [editLabels, setEditLabels] = useState('')
+    const loader = useSelector((state) => state.loader)
+    const dispatch = useDispatch()
     
     useEffect(() => {
         getUserDetail();
-
+    
     }, [])
 
     const getUserDetail = async () => {
+        dispatch(showLoader());
         try  {
             const method = '/userdetail'
             const url = process.env.REACT_APP_SERVER_URL + method
-            const response = await axios.get(url, {params:{ id:id }} );
-            console.log(response.data)
+            const response = await axios.get(url, {params:{ id:id }});
             setUserProfile(response.data.user);
-            props.triggerNotification('success', response.data.message);
+            dispatch(setNotification({type:'success', message:response.data.message}))
+            setTimeout(() => {
+                dispatch(hideLoader())
+            },2000)
         } catch(error) {
-            props.triggerNotification('success', error.response.data.message)
+            dispatch(setNotification({type:'danger', message:error.response?.data?.message}))
         }
     }
 
@@ -55,7 +62,8 @@ const Profile = (props) => {
     }
 
     const updateProfile = async () => {
-       try { 
+       try {
+            
             const method = '/user/update-profile';
             const url = process.env.REACT_APP_SERVER_URL + method;
             const response = await axios.put(url, user)
@@ -78,13 +86,13 @@ const Profile = (props) => {
         setChanges(true)
     }
 
-    if(!user) {
-        return (<div>Loading</div>)
-    }
+    // if(!user) {
+    //     return (<div>Loading</div>)
+    // }
     
     return (
-        <section className='pt-20'> 
-            <div className='container max-w-full mx-auto px-4'>
+       <section className='pt-20'> 
+            { user && !loader.isLoading && <div className='container max-w-full mx-auto px-4'>
                 <div className='flex gap-3'>   
                     <div className='flex justify-between flex-row flex-wrap w-full'>
                         <div className='w-full border mb-4 rounded-lg '>
@@ -163,12 +171,12 @@ const Profile = (props) => {
                             </div>
                         </div>
                         <div className='w-full flex justify-between gap-4'>
-                            <PaymentDetailSection userId={id} triggerNotification={props.triggerNotification}/>
-                            <SecuritySection userId={id} triggerNotification={props.triggerNotification}/>
+                            <PaymentDetailSection />
+                            <SecuritySection />
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>}
             <BasicModal 
                 width={700}
                 open={open} 

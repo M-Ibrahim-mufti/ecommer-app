@@ -20,11 +20,11 @@ const ShowAllProducts = (props) => {
             const method = "/product/All-Products"
             const url = process.env.REACT_APP_SERVER_URL + method
             const response = await axios.get(url)
-            props.triggerNotification('success', "Data loaded Successfully from the database");
+            // props.triggerNotification('success', "Data loaded Successfully from the database");
             setDisplayProduct(response.data)
             setFilteration(response.data)
         }catch(Error) {
-            props.triggerNotification('danger', "Failed to load data from database");            
+            // props.triggerNotification('danger', "Failed to load data from database");            
         }
     }
 
@@ -51,9 +51,18 @@ const ShowAllProducts = (props) => {
         })
     }
 
+    const setProductVisibility = (capture, index) => {
+        const DetailCont = document.querySelector(`#detail_product_${index}`).childNodes[1]
+        if(capture === 'IN'){
+            DetailCont.classList.remove('hidden')
+        }
+        if(capture === 'OUT') {
+            DetailCont.classList.add('hidden')
+        }
+    }
 
     return (
-        <div className="pt-20">
+        <div className="py-20">
             <div className=" container max-w-full mx-auto">
                 <div className="bg-secondary rounded-lg mx-3">
                     <div className="w-full flex flex-row border-b items-center py-4 px-4">
@@ -72,30 +81,34 @@ const ShowAllProducts = (props) => {
                         <input type="search" onChange={filterProducts} className={`bg-white rounded-r-xl ${toggleSearch ? 'search-field-shadow px-4 py-3 w-1/2' : 'w-0' } transition-all duration-300 ease-linear`}/>
                     </div>
                     <div className="py-4 px-4 grid grid-cols-4 gap-8">
-                        { filteration.map((product, index) => (
-                            <div key={`product ${index +1 }`} className="w-full bg-white  rounded-xl relative">
-                                <div className="bg-primary rounded-t-xl">
-                                    <img className="w-full h-40 img-shadow object-cover rounded-t-lg" src={product.Images[0]}/>
+                        { filteration.map((product, index) => ( 
+                            <Link to={`/product/${product._id}`} key={`${product.Title + index}`} className="card !border-4 image-border-color" onMouseEnter={() => setProductVisibility('IN', index)} onMouseLeave={() => setProductVisibility('OUT', index)}>
+                                <div className="first-content">
+                                    <div 
+                                        className="w-full h-full rounded-md"
+                                        style={{background:`rgb(43,43,40) url(${product.Images[0]}) no-repeat center / cover`}}
+                                    ></div>
                                 </div>
-                                <div className="w-full flex justify-center relative bottom-5">
-                                    <h5 className="py-2 px-5 rounded-xl text-black bg-white shadow-xl" >{product.Category}</h5>
-                                </div>
-                                <div className="-mt-3 mx-4 h-28 flex flex-col gap-2" >
-                                    <Link to={`/product/${product._id}`} className="font-bold text-xl" >{product.Title}</Link>
-                                    <h2 className="text-black text-opacity-75 pb-4">{product.Description.split(' ').length <= 12 ? product.Description : product.Description.split(' ').slice(0, 12).join(' ') + ' ...'}</h2>
-                                </div>
-                                <div className="mx-4 mb-4">
-                                    <div className="w-full" >
-                                        <button className="group w-full flex items-center justify-center py-2 button-bg rounded-xl transition-all duration-300 ease-linear">
-                                            <ShoppingCartCheckoutOutlined className="group-hover:text-opacity-100 text-white text-opacity-75 !w-5 !h-5"/>
-                                            <span className="group-hover:text-opacity-100 text-white text-opacity-75">Add to Cart</span>
-                                        </button>
+                                <div id={`detail_product_${index}`} className="second-content">
+                                    <div 
+                                        className="absolute top-1/2 left-1/2 w-[97%] h-[97%] blur-sm brightness-50 -translate-x-1/2 -translate-y-1/2 rounded-md"
+                                        style={{background:`rgb(43,43,40) url(${product.Images[0]}) no-repeat center / cover`, backgroundRepeat:'no-repeat', backgroundPosition: 'center',backgroundSize:'cover'}}
+                                    ></div>
+                                    <div className="absolute text-gray-500 hidden">
+                                        <div className="flex flex-col gap-2">
+                                            <div className="max-h-14 flex items-center h-14">
+                                                <h5 className="text-white font-bold text-xl my-3 mx-5"> {product.Title} </h5>
+                                            </div>
+                                            <div className="max-h-28 h-28">
+                                                <p className="mx-5 font-normal text-base text-white"> {product.Description.split(' ').length <= 25 ? product.Description : product.Description.split(' ').slice(0, 25).join(' ') + '...'} </p>
+                                            </div>
+                                            <div className="max-h-14 flex items-center justify-end h-14">
+                                                <p className="text-right text-xl font-normal text-white my-3 mx-5">Price : {product.Price}Rs</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="absolute -top-3 -right-3 w-14 h-14 pricing-shadow flex items-center justify-center rounded-full bg-primary">
-                                    <h2 className="text-white text-xs">{product.Price + " Rs"}</h2>
-                                </div>
-                            </div>
+                            </Link>
                         ))}
                     </div>
                 </div>

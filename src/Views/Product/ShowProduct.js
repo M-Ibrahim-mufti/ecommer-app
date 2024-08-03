@@ -34,7 +34,7 @@ const ShowProduct = (props) => {
                 }
             })
             console.log(response)
-            props.triggerNotification('success', response.data.message);
+            // props.triggerNotification('success', response.data.message);
             setProduct(response.data.product)
             const perUnitQuantities = Array.from({ length: response.data.product.Bulk.Quantity - 1 }, (_, i) => i + 1);
             const bulkQuantities = Array.from({ length: Math.floor(response.data.product.Quantity / response.data.product.Bulk.Quantity) }, (_, i) => (i + 1) * response.data.product.Bulk.Quantity);
@@ -44,7 +44,7 @@ const ShowProduct = (props) => {
 
 
         } catch(error) {
-            props.triggerNotification('danger', error.response?.data?.message || error.message )
+            // props.triggerNotification('danger', error.response?.data?.message || error.message )
         }
     }
     
