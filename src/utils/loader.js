@@ -4,10 +4,6 @@ import './utils.css'
 
 const Loader = ( ) => {
     const loading = useSelector((state) => state.loader)
-    useEffect(() => {
-        console.log("boolean check", loading.isLoading) 
-
-    },[loading])
 
     return (
         <div >

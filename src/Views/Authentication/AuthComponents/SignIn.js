@@ -48,7 +48,6 @@ const SignIn = () => {
                 dispatch(setCurrentUser(response.data.user))
             }
         } catch(error) {
-            console.log(error)
             dispatch(setNotification({type:"danger", message:error.response?.data?.message || error.message }))
         }
     }

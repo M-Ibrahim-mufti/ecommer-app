@@ -1,10 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom'
-import { ShoppingCartCheckoutOutlined } from "@mui/icons-material";
+import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import Dropdown from "./DropdownMenu";
-import axios from 'axios'   
-
+import axios from 'axios'
+import { useDispatch, useSelector } from "react-redux";   
+import { setIsCart } from '../../../../slicer/CartSlicer'
+import { setTotalNumberOfProductCheckout, setTotalProductCheckout } from "../../../../slicer/TotalCheckout";
+import '../../Dashboard.css'
 const Navbar = () => {
+    const isCart = useSelector(state => state.cart);
+    const user = useSelector(state => state.user)
+    const totalNumberOfCheckoutProduct = useSelector(state => state.totalNumberOfCheckout);
+
+
+    const totalCheckoutProduct = useSelector(state => state.totalNumberOfCheckout)
+    const dispatch = useDispatch();
+    
+    const getAllCheckOutProduct = async () => {
+        const method = '/Cart/AllCheckOutProductLength'
+        const url = process.env.REACT_APP_SERVER_URL + method;
+        const response = await axios.get(url, { params:{
+            id:user.user_id
+        }});
+
+        if(response.status === 200) {
+            console.log(response.data)
+            dispatch(setTotalNumberOfProductCheckout(response.data.totalNumberOfUserProductCarted))
+            dispatch(setTotalProductCheckout(response.data.totalUserProductCarted))
+        }
+    }
 
     const signOut = async () => { 
         const method = "/logout"
@@ -15,6 +39,14 @@ const Navbar = () => {
             window.location.reload();
         }
     }
+
+    useEffect(() => {
+        getAllCheckOutProduct();
+    },[])
+
+    useEffect(() => {
+        console.log(totalCheckoutProduct)
+    },[totalCheckoutProduct])
 
     return(
         <nav className="!z-50 fixed w-screen h-14 bg-primary">
@@ -32,8 +64,8 @@ const Navbar = () => {
                     </div>
                 </ul>
                 <div className="w-1/4 flex items-center justify-end pr-14">
-                    <div className="py-3 px-3 rounded-lg cursor-pointer hover:bg-[rgba(128,0,0,0.5)] transiton-all duration-300 ease-linear">
-                        <ShoppingCartCheckoutOutlined className='text-white'/>
+                    <div onClick={() => dispatch(setIsCart(!isCart))} className="py-3 px-3 rounded-lg cursor-pointer hover:bg-[rgba(128,0,0,0.5)] transiton-all duration-300 ease-linear">
+                        <div data-text={totalNumberOfCheckoutProduct} className={`${totalNumberOfCheckoutProduct > 0 ? 'NOCP' : ''}`}><ShoppingBagOutlinedIcon  className='text-white'/></div>
                     </div>
                 </div>
             </div>

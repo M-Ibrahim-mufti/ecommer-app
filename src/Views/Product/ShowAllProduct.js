@@ -2,13 +2,11 @@ import axios from "axios"
 import React, { useEffect, useState } from "react"
 import '../../App.css'
 import './Product.css'
-import {ShoppingCartCheckoutOutlined, SearchOutlined} from "@mui/icons-material"
-import { toggleCartDrawer } from "../../utils/utils"
+import {SearchOutlined} from "@mui/icons-material"
 import { Link } from "react-router-dom"
-const ShowAllProducts = (props) => {
+const ShowAllProducts = () => {
     const [displayProduct, setDisplayProduct] = useState([])
     const [filteration, setFilteration] = useState([]);
-    const [toggleCart, setToggleCart] = useState(false)
     const [toggleSearch, setToggleSearch] = useState(false)
 
     useEffect(() => {
@@ -20,20 +18,11 @@ const ShowAllProducts = (props) => {
             const method = "/product/All-Products"
             const url = process.env.REACT_APP_SERVER_URL + method
             const response = await axios.get(url)
-            // props.triggerNotification('success', "Data loaded Successfully from the database");
             setDisplayProduct(response.data)
             setFilteration(response.data)
         }catch(Error) {
-            // props.triggerNotification('danger', "Failed to load data from database");            
+            // props.triggerNotification('danger', "Undergoing maintenance please try again in few minutes");            
         }
-    }
-
-    const toggleCartFuntionality = () => {
-        setToggleCart(prevState => {
-            const newState = !prevState;
-            toggleCartDrawer(newState);
-            return newState;
-        })
     }
 
     const filterProducts = (event) => {
@@ -67,12 +56,12 @@ const ShowAllProducts = (props) => {
                 <div className="bg-secondary rounded-lg mx-3">
                     <div className="w-full flex flex-row border-b items-center py-4 px-4">
                         <h2 className="w-1/2 text-2xl font-bold">Products</h2>
-                        <div className="w-1/2 flex justify-end">
+                        {/* <div className="w-1/2 flex justify-end">
                             <button onClick={toggleCartFuntionality} className="group flex items-center gap-2 bg-primary py-3 px-6 button-bg rounded-xl transition-all duration-300 ease-linear">
                                 <ShoppingCartCheckoutOutlined className="group-hover:text-opacity-100 text-white text-opacity-75 !w-5 !h-5" />
                                 <span className="group-hover:text-opacity-100 text-white text-opacity-75">Cart</span>
                             </button>
-                        </div>
+                        </div> */}
                     </div>
                     <div className="w-full py-4 flex justify-start px-4 border-b">
                         <div onClick={() => setToggleSearch(!toggleSearch)} className={`cursor-pointer px-4 py-3 bg-white transition-all duraion-300 ease-linear ${toggleSearch ? 'rounded-l-lg' : 'rounded-lg'} `}>
@@ -89,21 +78,23 @@ const ShowAllProducts = (props) => {
                                         style={{background:`rgb(43,43,40) url(${product.Images[0]}) no-repeat center / cover`}}
                                     ></div>
                                 </div>
-                                <div id={`detail_product_${index}`} className="second-content">
+                                <div id={`detail_product_${index}`} className="bg-primary second-content">
                                     <div 
-                                        className="absolute top-1/2 left-1/2 w-[97%] h-[97%] blur-sm brightness-50 -translate-x-1/2 -translate-y-1/2 rounded-md"
+                                        className="absolute top-1/2 left-1/2 w-[97%] h-[97%] brightness-[.35] -translate-x-1/2 -translate-y-1/2 rounded-xl"
                                         style={{background:`rgb(43,43,40) url(${product.Images[0]}) no-repeat center / cover`, backgroundRepeat:'no-repeat', backgroundPosition: 'center',backgroundSize:'cover'}}
                                     ></div>
-                                    <div className="absolute text-gray-500 hidden">
-                                        <div className="flex flex-col gap-2">
-                                            <div className="max-h-14 flex items-center h-14">
-                                                <h5 className="text-white font-bold text-xl my-3 mx-5"> {product.Title} </h5>
+                                    <div className="absolute w-full text-gray-500 hidden">
+                                        <div className="flex flex-col gap-2.5">
+                                            <div className="max-h-16 flex items-center h-16">
+                                                <h5 className="font-bold text-xl my-2 bg-white text-black px-3 mx-4 rounded-md"> {product.Title} </h5>
                                             </div>
-                                            <div className="max-h-28 h-28">
-                                                <p className="mx-5 font-normal text-base text-white"> {product.Description.split(' ').length <= 25 ? product.Description : product.Description.split(' ').slice(0, 25).join(' ') + '...'} </p>
+                                            <div className="max-h-36 h-36">
+                                                <p className="mx-5 font-normal text-sm text-justify text-white">
+                                                    {product.Description.split(' ').length <= 40 ? product.Description : product.Description.split(' ').slice(0, 40).join(' ') + '...'} 
+                                                </p>
                                             </div>
-                                            <div className="max-h-14 flex items-center justify-end h-14">
-                                                <p className="text-right text-xl font-normal text-white my-3 mx-5">Price : {product.Price}Rs</p>
+                                            <div className="max-h-16 flex items-center justify-end w-full h-16">
+                                                <p className="text-right text-xl font-extrabold bg-white text-black px-3 my-2 mx-4 rounded-md">{product.Price}<span className="text-xs"> Rs</span></p>
                                             </div>
                                         </div>
                                     </div>

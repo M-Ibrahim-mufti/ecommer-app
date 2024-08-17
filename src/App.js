@@ -34,6 +34,7 @@ function AppContent() {
     const [loading, setLoading] = useState(true)
 
     const tokenRefresh = async () => {
+        dispatch(showLoader());
         try {
             const method = '/token-refresh';
             const url = process.env.REACT_APP_SERVER_URL + method;
@@ -60,6 +61,7 @@ function AppContent() {
         } finally {
             setTimeout(() => {
                 setLoading(false)
+                dispatch(hideLoader());
             }, 200);
         }
     };
@@ -90,7 +92,7 @@ function AppContent() {
             <div className='flex'>
                 <Loader/>
                 {!loading && currentUser ? <Sidebar /> : null}
-                <div className='flex-grow'>
+                {!loading && <div className='flex-grow'>
                     <Routes>
                         <Route path='/' element={currentUser ? <Dashboard /> : <Navigate to='/Authentication' />} />
                         <Route path='/Authentication' element={!currentUser ? <Authentication /> : <Navigate to="/" />} />
@@ -100,7 +102,7 @@ function AppContent() {
                         <Route path='/user/your-products/:id' element={currentUser ? <MyProductList /> : <Navigate to='/Authentication' />} /> 
                         <Route path='/product/:id' element={currentUser ? <ShowProduct /> : <Navigate to='/Authentication' />} /> 
                     </Routes>
-                </div>
+                </div>}
             </div>
             {currentUser ? <Cart /> : null}
         </div>

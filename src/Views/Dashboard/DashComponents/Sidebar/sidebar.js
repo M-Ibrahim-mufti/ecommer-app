@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 const Sidebar = (props) => {
 
     const currentUser = useSelector((state) => state.user)
-    const [sideState, setSideState] = useState(true);
+    const [sideState, setSideState] = useState(false);
     
 
     const toggleSidebar = (event) => {
@@ -89,56 +89,56 @@ const Sidebar = (props) => {
 
 
     return (
-        <div id="sideBarCont" className="flex-shrink-0 w-64 overflow-hidden z-[51] sticky top-0 h-screen transition-all duration-300 ease-linear">
+        <div id="sideBarCont" className="flex-shrink-0 w-20 overflow-hidden z-[51] sticky top-0 h-screen transition-all duration-300 ease-linear">
             <aside className="h-full bg-[rgb(43,43,40)] flex flex-col rounded-tr-md rounded-br-md">
-                <div className="text-right flex items-center justify-end py-2 px-4 ">
+                <div className="text-right flex items-center justify-center py-2 px-4 ">
                     <button className="group p-2 hover:bg-black hover:bg-opacity-20 transition-all duration-300 ease-linear rounded-lg" onClick={toggleSidebar} >
                         { sideState ? <Close className="group-hover:text-opacity-100 text-white text-opacity-75 !w-[35px] !h-[35px]"/> : <Menu className="group-hover:text-opacity-100 text-white text-opacity-75 !w-[35px] !h-[35px]"/>  }
                     </button>
                 </div>
-                <Link to={`/user/profile/${currentUser.user_id}`} id="sideUserDetail" className="cursor-pointer mt-4 p-4 mx-2 hover:bg-black hover:bg-opacity-20 transition-all duration-300 ease-linear rounded-lg">
+                <Link to={`/user/profile/${currentUser.user_id}`} id="sideUserDetail" className="cursor-pointer mt-4 py-2 mx-2 hover:bg-black hover:bg-opacity-20 transition-all duration-300 ease-linear rounded-lg">
                     <div className="flex gap-6 items-center">
-                        <div className="w-1/6">
+                        <div className="w-full mx-auto flex justify-center">
                             <Avatar className="border-2 border-pink-400 !w-[50px] !h-[50px] font-bold !bg-white !text-black" > {currentUser.UserName.charAt(0).toUpperCase()} </Avatar>
                         </div>
-                        <div className="w-auto text-white">
+                        <div className="w-auto hidden text-white">
                             <h2 className="font-extrabold">{currentUser.UserName}</h2>
                             <p className="text-white text-sm text-opacity-75">{currentUser.Email}</p>
                         </div>
                     </div>
                 </Link>
-                <div id="sideComponentLinks" className="p-4 mt-4 mx-2" >
+                <div id="sideComponentLinks" className="py-2 mt-4 mx-2" >
                     <div className="flex mb-5 justify-between items-center">
-                        <hr className="w-1/4 opacity-50" />
-                        <h2 className="w-2/5 text-white text-opacity-50 text-center">Components</h2>
-                        <hr className="w-1/4 opacity-50" />
+                        <hr className="w-1/4 hidden opacity-50" />
+                        <h2 className="w-full text-xs text-white text-opacity-50 text-center">Components</h2>
+                        <hr className="w-1/4 hidden opacity-50" />
                     </div>
                     <div className="mb-3 gap-2 flex flex-col">
                         <Link to="/" className="group flex justify-start gap-3 px-3 py-2 rounded-lg items-center hover:bg-black hover:bg-opacity-20 transition-all duration-300 ease-linear">
-                            <div className="w-1/5 text-center">
+                            <div className="w-full text-center">
                                 <GridViewOutlined className="group-hover:text-opacity-100 opacity-100 transition-all duration-200 ease-linear text-opacity-75 text-white rounded-lg !w-[30px] !h-[30px]"/>
                             </div>
-                            <h2 className="group-hover:text-opacity-100 transition-all duration-200 ease-linear w-3/5 text-opacity-75 text-white font-bold tracking-wider">Dashboard</h2>
+                            <h2 className="hidden opacity-0 group-hover:text-opacity-100 transition-all duration-200 ease-linear w-3/5 text-opacity-75 text-white font-bold tracking-wider">Dashboard</h2>
                         </Link>
                         <Link to="/product/user-products" className="group flex justify-start gap-3 px-3 py-2 rounded-lg items-center hover:bg-black hover:bg-opacity-20 transition-all duration-300 ease-linear">
-                            <div className="w-1/5 text-center">
+                            <div className="w-full text-center">
                                 <ShoppingBagOutlined className="group-hover:text-opacity-100 opacity-100 transition-all duration-200 ease-linear text-opacity-75 text-white rounded-lg !w-[30px] !h-[30px]"/>
                             </div>
-                            <h2 className="group-hover:text-opacity-100 transition-all duration-200 ease-linear w-3/5 text-opacity-75 text-white font-bold tracking-wider">All Product</h2>
+                            <h2 className="hidden opacity-0 group-hover:text-opacity-100 transition-all duration-200 ease-linear w-3/5 text-opacity-75 text-white font-bold tracking-wider">All Product</h2>
                         </Link>
                         { currentUser.Role !== 'Buyer' &&  
                         <Link to="/product/add-product" className="group flex justify-start gap-3 px-3 py-2 rounded-lg items-center hover:bg-black hover:bg-opacity-20 transition-all duration-300 ease-linear">
-                            <div className="w-1/5 text-center">
+                            <div className="w-full text-center">
                                 <AddBoxOutlined className="group-hover:text-opacity-100 opacity-100 transition-all duration-200 ease-linear text-opacity-75 text-white rounded-lg !w-[30px] !h-[30px]"/>
                             </div>
-                            <h2 className="group-hover:text-opacity-100 transition-all duration-200 ease-linear w-3/5 text-opacity-75 text-white font-bold tracking-wider">Add Product</h2>
+                            <h2 className="hidden opacity-0 group-hover:text-opacity-100 transition-all duration-200 ease-linear w-3/5 text-opacity-75 text-white font-bold tracking-wider">Add Product</h2>
                         </Link>}
                         { currentUser.Role !== 'Buyer' &&  
                         <Link  to={`/user/your-products/${currentUser.user_id}`} className="group flex justify-start gap-3 px-3 py-2 rounded-lg items-center hover:bg-black hover:bg-opacity-20 transition-all duration-300 ease-linear">
-                            <div className="w-1/5 text-center">
+                            <div className="w-full text-center">
                                 <FormatListBulleted className="group-hover:text-opacity-100 opacity-100 transition-all duration-200 ease-linear text-opacity-75 text-white rounded-lg !w-[30px] !h-[30px]"/>
                             </div>
-                            <h2 className="group-hover:text-opacity-100 transition-all duration-200 ease-linear w-3/5 text-opacity-75 text-white font-bold tracking-wider">My Products</h2>
+                            <h2 className="hidden opacity-0 group-hover:text-opacity-100 transition-all duration-200 ease-linear w-3/5 text-opacity-75 text-white font-bold tracking-wider">My Products</h2>
                         </Link>}
                         
                     </div>

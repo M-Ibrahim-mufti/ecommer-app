@@ -33,11 +33,12 @@ const Profile = () => {
             const response = await axios.get(url, {params:{ id:id }});
             setUserProfile(response.data.user);
             dispatch(setNotification({type:'success', message:response.data.message}))
-            setTimeout(() => {
-                dispatch(hideLoader())
-            },2000)
         } catch(error) {
             dispatch(setNotification({type:'danger', message:error.response?.data?.message}))
+        } finally {
+            setTimeout(() => {
+                dispatch(hideLoader())
+            },1000)
         }
     }
 
@@ -85,10 +86,6 @@ const Profile = () => {
         }))
         setChanges(true)
     }
-
-    // if(!user) {
-    //     return (<div>Loading</div>)
-    // }
     
     return (
        <section className='pt-20'> 

@@ -8,6 +8,10 @@
     --secondary-bg-color:#f2f5f7;
 }
 
+button:disabled {
+    opacity: 0.5;
+}
+
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
