@@ -32,6 +32,7 @@ const BasicMenu = (props) => {
         </IconButton>
         <Menu id="basic-menu" anchorEl={isOpen} open={open} onClose={handleClose} MenuListProps={{ 'aria-labelledby': 'basic-button' }}>
             <MenuItem onClick={() => { handleClose(); navigateProfilePage(); }}>My Profile</MenuItem>
+            <MenuItem onClick={() => { handleClose();}}> Contact Us </MenuItem>
             <MenuItem onClick={() => { handleClose(); props.signOut(); }}>Logout</MenuItem>
         </Menu>
     </div>

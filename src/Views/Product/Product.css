@@ -101,16 +101,16 @@ select  {
     border-radius: 10px;
     font-size: 30px;
     font-weight: 900;
-  }
-  
-  .card:hover {
+}
+
+.card:hover {
     border-radius: 15px;
     cursor: pointer;
     transform: scale(1.1);
 
-  }
-  
-  .first-content {
+}
+
+.first-content {
     height: 100%;
     width: 100%;
     transition: all 0.4s;
@@ -119,14 +119,14 @@ select  {
     align-items: start;
     opacity: 1;
     border-radius: 15px;
-  }
-  
-  .card:hover .first-content {
+}
+
+.card:hover .first-content {
     height: 0px;
     opacity: 0;
-  }
-  
-  .second-content {
+}
+
+.second-content {
     height: 0;
     width: 100%;
     opacity: 0;
@@ -136,12 +136,30 @@ select  {
     font-size: 0px;
     transform: rotate(90deg) scale(0);
     position: relative;
-  }
-  
-  .card:hover .second-content {
+}
+
+.card:hover .second-content {
     opacity: 1;
     height: 100%;
     font-size: 1.8rem;
     transform: rotate(0deg);
-  }
-  
+}
+
+.slider-container img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.slider-container {
+    overflow: hidden;
+}
+
+.reviews-snapping{
+    scroll-snap-type: x mandatory;   
+    scroll-margin-top: 10px;
+}
+
+.review-card {
+    scroll-snap-align: start;
+}

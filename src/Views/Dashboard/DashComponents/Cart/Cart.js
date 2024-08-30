@@ -45,12 +45,12 @@ const Cart = () => {
                             className='bg-black bg-opacity-20 rounded-tl-lg rounded-bl-lg'
                             style={{width:'95px', height:'95px', background:`url(${product.Images[0]}) no-repeat center/cover`}}
                         ></div>
-                        <div className='flex flex-col justify-center'>
+                        <div className='flex flex-col flex-grow justify-center'>
                             <h5 className='text-white font-semibold'> {product.ProductName} </h5>
                             <p className='text-white text-opacity-50'>Quantity : {product.ProductQuantity}</p>
-                            <p className='text-white text-opacity-75'>Total Proce : {product.TotalPrice} </p>
+                            <p className='text-white text-opacity-75'>Price : {product.TotalPrice} </p>
                         </div>
-                        <div className='flex items-center justify-end'>
+                        <div className='flex items-center justify-end pr-3'>
                             <Close onClick={() => removeFromCheckout(product)} className='cursor-pointer text-white font-bold stroke-[4px]'/>
                         </div>
                     </div>

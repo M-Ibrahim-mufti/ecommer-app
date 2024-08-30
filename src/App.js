@@ -24,6 +24,7 @@ import MyProductList from './Views/User/MyProduct/MyProduct';
 import NotficationMessages from './utils/notifications';
 import ShowProduct from './Views/Product/ShowProduct';
 import Loader from './utils/loader';
+import TopProducts from './Views/Top Product/TopProducts';
 
 function AppContent() {
     const notification = useSelector((state) => state.notification);
@@ -97,8 +98,10 @@ function AppContent() {
                         <Route path='/' element={currentUser ? <Dashboard /> : <Navigate to='/Authentication' />} />
                         <Route path='/Authentication' element={!currentUser ? <Authentication /> : <Navigate to="/" />} />
                         <Route path='/product/user-products' element={currentUser ? <ShowAllProducts /> : <Navigate to="/Authentication" />} />
-                        <Route path='/product/add-product' element={currentUser ? <NewProduct /> : <Navigate to="/Authentication" />} /> 
-                        <Route path='/user/profile/:id' element={currentUser ? <Profile /> : <Navigate to="/Authentication" />} /> 
+                        <Route path='/product/add-product' element={currentUser && currentUser.Role === 'Seller'? <NewProduct /> : <Navigate to="/Authentication" />} /> 
+                        <Route path='/product/add-product/:id' element={currentUser && currentUser.Role === 'Seller'? <NewProduct /> : <Navigate to="/Authentication" />} /> 
+                        <Route path='/user/profile/:id' element={currentUser ? <Profile /> : <Navigate to="/Authentication"/>} /> 
+                        <Route path='/TopProducts' element={currentUser ? <TopProducts/> : <Navigate to={"/Authentications"}/>} />
                         <Route path='/user/your-products/:id' element={currentUser ? <MyProductList /> : <Navigate to='/Authentication' />} /> 
                         <Route path='/product/:id' element={currentUser ? <ShowProduct /> : <Navigate to='/Authentication' />} /> 
                     </Routes>

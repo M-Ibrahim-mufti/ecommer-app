@@ -1,18 +1,22 @@
 import axios from 'axios';
 import {useState, useEffect} from 'react';
-import { useParams } from 'react-router-dom';
-import { ShoppingCartCheckoutOutlined } from '@mui/icons-material'
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { ShoppingCartCheckoutOutlined, ModeEditOutlined } from '@mui/icons-material'
 import BasicModal from '../utils/Modal/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { setNotification } from '../../slicer/notificationSlicer'
 import { AddProductToCheckout, setTotalNumberOfProductCheckout, setTotalProductCheckout } from '../../slicer/TotalCheckout';
+import { Rating } from '@mui/material';
+import './Product.css';
 
 const ShowProduct = (props) => {
+    const location = useLocation();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useSelector(state => state.user)
     const { id } = useParams();
     const [product, setProduct] = useState({});   
-    const [purchasingModal,setPurchasingModal] = useState(false)
+    const [purchasingModal,setPurchasingModal] = useState(false);
     const [toggleQuantitySelector, setToggleQuantitySelection] = useState(true)
     const [perUnitQuantity, setPerUnitQuantity] = useState([])
     const [bulkQuantity, setBulkQuantity] = useState([]);
@@ -26,6 +30,8 @@ const ShowProduct = (props) => {
         User:'',
         Product:''
     })
+    const { fromUserProduct } = location.state || {};
+
 
     useEffect(() => {
         getPorductDetail();
@@ -38,7 +44,8 @@ const ShowProduct = (props) => {
             const url = process.env.REACT_APP_SERVER_URL + method;
             const response = await axios.get(url, {
                 params:{
-                    id:id
+                    id:id,
+                    userId:user.user_id
                 }
             })
             console.log(response)
@@ -96,6 +103,7 @@ const ShowProduct = (props) => {
         });
     }
 
+
     const setSizes = (event) => {
         if(event.target.classList.contains('bg-primary')) {
             event.target.classList.remove('bg-primary', 'text-white');
@@ -131,7 +139,7 @@ const ShowProduct = (props) => {
     const setProductSizesQunatity = (event) => {
         const updateSizes = buyProduct.ProductSizes.map((size) => {
             if(Object.keys(size)[0] === event.target.name){
-                return { [Object.keys(size)[0]]:parseInt(event.target.value, 10)}
+                return {[Object.keys(size)[0]]:parseInt(event.target.value, 10)}
             }
             return size;
         })
@@ -165,23 +173,32 @@ const ShowProduct = (props) => {
     }
 
     return (
-        <div className='w-full pt-20 flex items-center'>
-            { product ? <div className='container flex gap-3 max-w-full mx-3'>
+        <div className='w-full pt-16 flex items-center flex-wrap'>
+            <div className='py-4 w-full px-4 flex flex-col gap'>
+                <div className='w-full bg-secondary rounded-lg py-3'>
+                    <h5 className='text-gray-500 px-4 font-bold text-2xl'>Product Detail</h5>
+                </div>
+            </div>
+            { product ? 
+            <div className='container flex gap-3 max-w-full mx-4'>
                 <div className='w-1/2 flex flex-col gap-2'>
                     { product.Images && <div className='border-8 image-border-color rounded-lg' style={{width:'100%', maxHeight:'500px',height:'100%', background: `url(${product.Images[0]})`, backgroundRepeat:'no-repeat', backgroundPosition: 'center',backgroundSize:'contain'}} ></div>}
                     <div className='w-full flex gap-3 flex-row'>
                         { product.Images && product.Images.slice(1).map((images, index) => (
-                            <div className='border-4 image-border-color rounded-lg' key={`${product.Title} image ${index}`} style={{width:'112px' ,height:'96px' ,background:`url(${images})`, backgroundRepeat:'no-repeat', backgroundPosition: 'center',backgroundSize:'contain'}}></div>
+                            <div className='border-4 image-border-color rounded-lg' key={`${product.Title} image ${index}`} style={{width:'120px' ,height:'120px' ,background:`url(${images})`, backgroundRepeat:'no-repeat', backgroundPosition: 'center',backgroundSize:'contain'}}></div>
                         ))}
                     </div> 
                 </div>
                 <div className='w-1/2 flex gap-3 flex-col'>
                     <div className='flex flex-row items-center gap-3 py-3 px-4 bg-secondary rounded-lg'>
                         <h5 className='text-gray-500 font-bold w-3/4'> {product.Title}</h5>
-                        <button  onClick={handlePurchasingModalOpen} className="group w-1/4 flex items-center justify-center gap-2 py-3 button-bg rounded-lg transition-all duration-300 ease-linear">
+                        { !fromUserProduct ?  <button  onClick={handlePurchasingModalOpen} className="group w-1/4 flex items-center justify-center gap-2 py-3 button-bg rounded-lg transition-all duration-300 ease-linear">
                             <ShoppingCartCheckoutOutlined className="group-hover:text-opacity-100 text-white text-opacity-75 !w-5 !h-5"/>
                             <span className="group-hover:text-opacity-100 text-white text-opacity-75">Buy</span>
-                        </button>
+                        </button> : <button  onClick={() => navigate(`/product/add-product/${product._id}`)} className="group w-1/4 flex items-center justify-center gap-2 py-3 button-bg rounded-lg transition-all duration-300 ease-linear">
+                            <ModeEditOutlined className="group-hover:text-opacity-100 text-white text-opacity-75 !w-5 !h-5"/>
+                            <span className="group-hover:text-opacity-100 text-white text-opacity-75">Edit</span>
+                        </button>}
                     </div>
                     { (product.ShoeSizes || product.ClothingSizes) ? <div className='flex flex-col bg-secondary px-4 py-4 rounded-lg'>
                         <h5 className='text-gray-500 font-bold pb-4'>These product is avalible in the sizes that are given Below</h5>
@@ -216,19 +233,19 @@ const ShowProduct = (props) => {
                             <h5 className='text-gray-500 font-bold pb-2 px-4 border-b-2'> Pricing in Bulk  </h5>
                             <div className='d-flex flex-col gap-4 px-4 pt-2'>
                                 <div className='flex flex-row gap-3'>
-                                    <h5 className='text-gray-500 w-1/3 font-bold mb-4'>Bulk Qunitity</h5>
-                                    <p className='text-gray-500 font-semibold w-2/3'>: {product.Bulk?.Quantity > 0 ? product.Bulk?.Quantity : 'Not Sold For Bulk'}  </p>
+                                    <h5 className='text-gray-500 w-1/2 font-bold mb-4'>Quantity in Bulk</h5>
+                                    <p className='text-gray-500 font-semibold w-1/2'>: {product.Bulk?.Quantity > 0 ? product.Bulk?.Quantity : 'Not Sold For Bulk'}  </p>
                                 </div>
                                 <div className='flex flex-row gap-3'>
-                                    <h5 className='text-gray-500 w-1/3 font-bold mb-4'>Price of bulk</h5>
-                                    <p className='text-gray-500 font-semibold w-2/3'>: {product.Bulk?.Price > 0 ? product.Bulk?.Price + 'PKR' : 'Not Sold For Bulk'}  </p>
+                                    <h5 className='text-gray-500 w-1/2 font-bold mb-4'>Price of bulk</h5>
+                                    <p className='text-gray-500 font-semibold w-1/2'>: {product.Bulk?.Price > 0 ? product.Bulk?.Price + 'PKR' : 'Not Sold For Bulk'}  </p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div className="py-4 max-h-[250px] bg-secondary rounded-lg h-full">
                         <h5 className='text-gray-500 px-4 font-bold pb-4' >Description</h5>
-                        <p id='description-field' className='px-4 overflow-y-scroll customize-scroll-bar text-gray-500 pb-4 '>
+                        <p id='description-field' className='px-4 overflow-y-auto customize-scroll-bar text-gray-500 pb-4 '>
                             {product.Description}
                             This versatile shirt combines comfort and style effortlessly. Crafted from soft, breathable cotton, it ensures all-day wearability with a relaxed fit that drapes beautifully. 
                             The classic design features a crisp collar and a button-down front, making it perfect for both casual and semi-formal occasions.
@@ -239,8 +256,58 @@ const ShowProduct = (props) => {
                         </p>
                     </div>
                 </div>
-
             </div> : null}
+            <div className='py-4 w-full px-4 flex flex-col gap'>
+                <div className='w-full bg-secondary rounded-lg py-4'>
+                    <h5 className='text-gray-500 px-4 font-bold text-2xl'>Reviews</h5>
+                </div>
+                <div className='mt-4 w-full bg-secondary rounded-lg px-4'>
+                    <div className='flex gap-3 rounded-lg py-4 overflow-x-auto customize-scroll-bar reviews-snapping'>
+                        <div className='review-card flex-shrink-0 pb-3 w-1/3 bg-white rounded-md flex flex-col '>
+                            <h5 className='w-full border-b-2 py-3 text-center'> Review By Ibrahim </h5>
+                            <div className='flex flex-col items-center py-3 px-3'>
+                                <Rating value={4} readOnly></Rating>
+                                <p className='text-sm' > Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin feugiat, neque ut commodo gravida, elit orci cursus dolor, ut mattis nisi orci nec mass. </p>
+                            </div>
+                        </div>
+                        <div className='review-card flex-shrink-0 pb-3 w-1/3 bg-white rounded-md flex flex-col '>
+                            <h5 className='w-full border-b-2 py-3 text-center'> Review By Ibrahim </h5>
+                            <div className='flex flex-col items-center py-3 px-3'>
+                                <Rating value={4} readOnly></Rating>
+                                <p className='text-sm' > Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin feugiat, neque ut commodo gravida, elit orci cursus dolor, ut mattis nisi orci nec mass. </p>
+                            </div>
+                        </div>
+                        <div className='review-card flex-shrink-0 pb-3 w-1/3 bg-white rounded-md flex flex-col '>
+                            <h5 className='w-full border-b-2 py-3 text-center'> Review By Ibrahim </h5>
+                            <div className='flex flex-col items-center py-3 px-3'>
+                                <Rating value={4} readOnly></Rating>
+                                <p className='text-sm' > Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin feugiat, neque ut commodo gravida, elit orci cursus dolor, ut mattis nisi orci nec mass. </p>
+                            </div>
+                        </div>
+                        <div className='review-card flex-shrink-0 pb-3 w-1/3 bg-white rounded-md flex flex-col '>
+                            <h5 className='w-full border-b-2 py-3 text-center'> Review By Ibrahim </h5>
+                            <div className='flex flex-col items-center py-3 px-3'>
+                                <Rating value={4} readOnly></Rating>
+                                <p className='text-sm' > Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin feugiat, neque ut commodo gravida, elit orci cursus dolor, ut mattis nisi orci nec mass. </p>
+                            </div>
+                        </div>
+                        <div className='review-card flex-shrink-0 pb-3 w-1/3 bg-white rounded-md flex flex-col '>
+                            <h5 className='w-full border-b-2 py-3 text-center'> Review By Ibrahim </h5>
+                            <div className='flex flex-col items-center py-3 px-3'>
+                                <Rating value={4} readOnly></Rating>
+                                <p className='text-sm' > Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin feugiat, neque ut commodo gravida, elit orci cursus dolor, ut mattis nisi orci nec mass. </p>
+                            </div>
+                        </div>
+                        <div className='review-card flex-shrink-0 pb-3 w-1/3 bg-white rounded-md flex flex-col '>
+                            <h5 className='w-full border-b-2 py-3 text-center'> Review By Ibrahim </h5>
+                            <div className='flex flex-col items-center py-3 px-3'>
+                                <Rating value={4} readOnly></Rating>
+                                <p className='text-sm' > Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin feugiat, neque ut commodo gravida, elit orci cursus dolor, ut mattis nisi orci nec mass. </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <BasicModal
                 width={500}
                 open={purchasingModal}
@@ -306,7 +373,12 @@ const ShowProduct = (props) => {
                 }
                 Footer={
                     <div className='bg-white border-t flex py-2 justify-center rounded-b-lg w-full'>
-                        <button disabled={buyProduct.ProductQuantity <= 0 || (buyProduct.ProductSizes.length <= 0 && (product.Qunatiy === 'Clothing' || product.Quanitity === 'Footwear'))  } onClick={addToCheckOut} className='w-[95%] hover:bg-opacity-100 transition-all duration-300 ease-linear bg-[#660000] bg-opacity-85 rounded-lg text-white py-2'>Add to Cart</button>
+                        <button 
+                            disabled={
+                                buyProduct.ProductQuantity <= 0 ||
+                                ((product.Quantity === 'Clothing' || product.Quantity === 'Footwear') && buyProduct.ProductSizes.length <= 0)
+                            }
+                            onClick={addToCheckOut} className='w-[95%] hover:bg-opacity-100 transition-all duration-300 ease-linear bg-[#660000] bg-opacity-85 rounded-lg text-white py-2'>Add to Cart</button>
                     </div>
                 }
             />

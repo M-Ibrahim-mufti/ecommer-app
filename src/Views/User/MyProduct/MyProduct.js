@@ -1,71 +1,191 @@
-import axios from 'axios';
-import {useState, useEffect} from 'react';
-import { useParams } from 'react-router-dom';
+import axios from "axios"
+import React, { useEffect, useState } from "react"
+import {SearchOutlined} from "@mui/icons-material"
+import { Link, useNavigate, useParams } from "react-router-dom"
+import { FormControl, TextField, MenuItem, Select } from "@mui/material"
+import "./MyProduct.css"
+const ShowAllProducts = () => {
+    const [displayUserProduct, setDisplayUserProduct] = useState([])
+    const [filteration, setFilteration] = useState([]);
+    const [toggleSearch, setToggleSearch] = useState(false)
+    const { id } = useParams()
+    const [selectedCategory, setSelectedCategory] = useState('-1')
+    const [selectedPriceRange, setSelectedPriceRange] = useState('-1')
+    const [priceRange, setPriceRange] = useState({
+        min:0,
+        max:0
+    }) 
+    const navigate = useNavigate();
 
-const MyProductList = () => {
-    const [products, setProducts] = useState([])
-    const { id } = useParams() 
-    const getAllUserProduct = async () => {
-        try{  
-            const method = '/product/All-user-products';
-            const url = process.env.REACT_APP_SERVER_URL + method;
-            const response = await axios.get(url,
-                {
-                    params:{
-                        id: id
-                    }
-                }
-            )
-            setProducts(response.data)
-        } catch(err) {
-            console.log(err);
+    useEffect(() => {
+        getAllUserProducts();
+    },[])
+
+    const getAllUserProducts = async() => {
+        try {
+            const method = "/product/All-user-Products"
+            const url = process.env.REACT_APP_SERVER_URL + method
+            const response = await axios.get(url, {params:{id:id}})
+            setDisplayUserProduct(response.data)
+            setFilteration(response.data)
+        }catch(Error) {
+            // props.triggerNotification('danger', "Undergoing maintenance please try again in few minutes");            
         }
     }
 
+    const filterProducts = (event) => {
+        setFilteration(displayUserProduct);
+        setFilteration((prevProduct) => {
+            const filteredProducts = prevProduct.filter(product => {
+                if (product.Title.toLowerCase().includes(event.target.value.toLowerCase()) || product.Description.toLowerCase().includes(event.target.value.toLowerCase())) {
+                    return product;
+                }
+                else {
+                    return;
+                }
+            })
+            return filteredProducts;
+        })
+    }
+
+    const filterByCategory = (event) => {
+        setFilteration(displayUserProduct);
+        setSelectedCategory(event.target.value);
+        setFilteration((prevproduct) => {
+            const filterProduct = prevproduct.filter((product) => product.Category === event.target.value )
+            return filterProduct
+        })
+    }
+
+    const handlePriceChange = (e) => {
+        const { name, value } = e.target;
+        setPriceRange((prevRange) => ({
+            ...prevRange,
+            [name]: value,
+        }));
+    };
+    
     useEffect(() => {
-        getAllUserProduct();
-    }, [])
+        if(priceRange.max == 0 && priceRange.min == 0){
+            console.log("All product")
+            setFilteration(displayUserProduct)
+        }
 
+        if (priceRange.max > 0 && priceRange.min >= 0) {
+            const filteredProducts = displayUserProduct.filter((product) => {
+                return product.Price >= priceRange.min && product.Price <= priceRange.max;
+            });
+            setFilteration(filteredProducts);
+        }
+    }, [priceRange]);
+    
+    const handleSelectChange = (event) => {
+        setSelectedPriceRange(event.target.value);
+    };
+
+    const setProductVisibility = (capture, index) => {
+        const DetailCont = document.querySelector(`#detail_product_${index}`).childNodes[1]
+        if(capture === 'IN'){
+            DetailCont.classList.remove('hidden')
+        }
+        if(capture === 'OUT') {
+            DetailCont.classList.add('hidden')
+        }
+    }
+
+    const navigateToYourProduct = (id) => {
+        console.log("Checking", id)
+        navigate(`/product/${id}`,{state: { fromUserProduct: true }})
+    }
     return (
-        <div className="pt-20">
-        <div className="container max-w-full mx-auto">
-            <div className="border-2 rounded-lg mx-3">
-                <div className="w-full flex flex-row items-center py-4 px-4 border-b-2">
-                    <h2 className="w-1/2 text-2xl font-bold">My Products</h2>
-                </div>
-                <div className="w-full py-4 px-4 border-b-2">
-
-                </div>
-                <div className="py-4 px-4 grid grid-cols-4 gap-8">
-                    { products.map((product) => (
-                        <div className="w-full border-2 rounded-xl relative">
-                            <div className="bg-primary rounded-t-xl">
-                                <img className="w-full h-40 img-shadow object-cover rounded-t-lg" src={product.Images[0]}/>
+        <div className="py-20">
+            <div className=" container max-w-full mx-auto">
+                <div className="bg-secondary rounded-lg mx-3">
+                    <div className="w-full flex flex-row border-b items-center py-4 px-4">
+                        <h2 className="w-1/2 text-2xl font-bold">Your Products</h2>
+                    </div>
+                    <div className="w-full py-4 flex justify-between px-4 border-b">
+                        <div className="w-2/5 flex jusitfy-start">
+                            <div onClick={() => setToggleSearch(!toggleSearch)} className={`cursor-pointer px-4 py-3 bg-white transition-all duraion-300 ease-linear ${toggleSearch ? 'rounded-l-lg' : 'rounded-lg'} `}>
+                                <SearchOutlined  className="text-gray-700" />
                             </div>
-                            <div className="w-full flex justify-center relative bottom-5">
-                                <h2 className="py-2 px-5 rounded-xl text-black bg-white shadow-xl" >{product.Category}</h2>
-                            </div>
-                            <div className="-mt-3 mx-4 h-28 flex flex-col gap-2" >
-                                <h2 className="font-bold text-xl" >{product.Title}</h2>
-                                <h2 className="text-black text-opacity-75 pb-4">{product.Description.split(' ').length <= 12 ? product.Description : product.Description.split(' ').slice(0, 12).join(' ') + ' ...'}</h2>
-                            </div>
-                            <div className="mx-4 mb-4">
-                                <div className="w-full" >
-                                    <button className="group w-full flex items-center justify-center py-2 button-bg rounded-xl transition-all duration-300 ease-linear">
-                                        <span className="group-hover:text-opacity-100 text-white text-opacity-75">See Product</span>
-                                    </button>
+                            <input type="search" onChange={filterProducts} className={`bg-white rounded-r-xl ${toggleSearch ? 'search-field-shadow px-4 py-3 w-full' : 'w-0' } transition-all duration-300 ease-linear`}/>
+                        </div>
+                        <div className="w-1/2 flex gap-3 justify-end">
+                            <FormControl sx={{ minWidth:150}}>  
+                                <Select onChange={filterByCategory} className="!rounded-2xl"  value={selectedCategory}>
+                                    <MenuItem disabled value={'-1'}> Filter Category  </MenuItem>
+                                    <MenuItem value={'Clothing'}> Clothing </MenuItem>
+                                    <MenuItem value={'Footwear'}> Footwear </MenuItem>
+                                    <MenuItem value={'Electronic'}> Electronics </MenuItem>
+                                    <MenuItem value={'Home Appliance'}> Furniture </MenuItem>
+                                </Select>
+                            </FormControl>
+                            <FormControl sx={{ minWidth: 200 }}>
+                                <Select
+                                    value={selectedPriceRange}
+                                    className="!rounded-2xl"
+                                    displayEmpty
+                                    renderValue={() => selectedPriceRange === '-1' ? 'Filter By Price' : selectedPriceRange}
+                                    onChange={handleSelectChange}
+                                    MenuProps={{
+                                        PaperProps: {
+                                          sx: {
+                                            width: '200px',
+                                          },
+                                        },
+                                    }}
+                                >
+                                    <MenuItem disabled value={'-1'}>
+                                    Filter By Price
+                                    </MenuItem>
+                                    <MenuItem value={'Price Filter'} >
+                                        <div className="flex justify-between" onClick={(e) => e.stopPropagation()}>
+                                            <TextField  className="w-[45%]" id="min-price" name="min" variant="outlined" placeholder="Min" size="small" onChange={handlePriceChange}/>
+                                            <TextField  className="w-[45%]" id="max-price" name="max" variant="outlined" placeholder="Max" size="small" onChange={handlePriceChange} />
+                                        </div>
+                                    </MenuItem>
+                                </Select>
+                            </FormControl>
+                        </div>
+                    </div>
+                    <div className="py-4 px-4 grid grid-cols-4 gap-8">
+                        { filteration.map((product, index) => ( 
+                            <div onClick={() => navigateToYourProduct(product._id)} key={`${product.Title + index}`} className="card !border-4 image-border-color" onMouseEnter={() => setProductVisibility('IN', index)} onMouseLeave={() => setProductVisibility('OUT', index)}>
+                                <div className="first-content">
+                                    <div 
+                                        className="w-full h-full rounded-md"
+                                        style={{background:`rgb(43,43,40) url(${product.Images[0]}) no-repeat center / cover`}}
+                                    ></div>
+                                </div>
+                                <div id={`detail_product_${index}`} className="bg-primary second-content">
+                                    <div 
+                                        className="absolute top-1/2 left-1/2 w-[97%] h-[97%] brightness-[.35] -translate-x-1/2 -translate-y-1/2 rounded-xl"
+                                        style={{background:`rgb(43,43,40) url(${product.Images[0]}) no-repeat center / cover`, backgroundRepeat:'no-repeat', backgroundPosition: 'center',backgroundSize:'cover'}}
+                                    ></div>
+                                    <div className="absolute w-full text-gray-500 hidden">
+                                        <div className="flex flex-col gap-2.5">
+                                            <div className="max-h-16 flex items-center h-16">
+                                                <h5 className="font-bold text-xl my-2 bg-white text-black px-3 mx-4 rounded-md"> {product.Title.split(' ').length < 3 ? product.Title : product.Title.split(' ').slice(0,3).join(' ') + '...' } </h5>
+                                            </div>
+                                            <div className="max-h-36 h-36">
+                                                <p className="mx-5 font-normal text-sm text-justify text-white">
+                                                    {product.Description.split(' ').length <= 40 ? product.Description : product.Description.split(' ').slice(0, 40).join(' ') + '...'} 
+                                                </p>
+                                            </div>
+                                            <div className="max-h-16 flex items-center justify-end w-full h-16">
+                                                <p className="text-right text-xl font-extrabold bg-white text-black px-3 my-2 mx-4 rounded-md">{product.Price}<span className="text-xs"> Rs</span></p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div className="absolute -top-3 -right-3 w-14 h-14 pricing-shadow flex items-center justify-center rounded-full bg-primary">
-                                <h2 className="text-white text-xs">{product.Price + " Rs"}</h2>
-                            </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     )
 }
 
-export default MyProductList
+export default ShowAllProducts

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import Dropdown from "./DropdownMenu";
 import axios from 'axios'
@@ -9,7 +9,8 @@ import { setTotalNumberOfProductCheckout, setTotalProductCheckout } from "../../
 import '../../Dashboard.css'
 const Navbar = () => {
     const isCart = useSelector(state => state.cart);
-    const user = useSelector(state => state.user)
+    const user = useSelector(state => state.user);
+    const location = useLocation()
     const totalNumberOfCheckoutProduct = useSelector(state => state.totalNumberOfCheckout);
 
 
@@ -55,10 +56,10 @@ const Navbar = () => {
                     <h2 className="text-3xl">E-APP</h2>
                 </div>
                 <ul className="w-1/2 flex justify-end gap-9 items-center">
-                    <li className="text-white hover:font-bold transition-all duration-500 ease-linear"><Link to='/'>Dashboard</Link></li>
-                    <li className="text-white hover:font-bold transition-all duration-500 ease-linear"><Link to='/product/user-products'>Products</Link></li>
-                    <li className="text-white hover:font-bold transition-all duration-500 ease-linear"><Link to='/Blogs'>Blogs</Link></li>
-                    <li className="text-white hover:font-bold transition-all duration-500 ease-linear"><Link to='/About'>About</Link></li>
+                    <li className={`${location.pathname === '/' ? 'font-bold' : ''} text-white hover:font-bold transition-all duration-200 ease-linear`}><Link to='/'>Dashboard</Link></li>
+                    <li className={`${location.pathname === '/product/user-products' ? 'font-bold' : ''} text-white hover:font-bold transition-all duration-200 ease-linear`}><Link to='/product/user-products'>Products</Link></li>
+                    <li className={`${location.pathname === '/TopProducts' ? 'font-bold' : ''} text-white hover:font-bold transition-all duration-200 ease-linear`}><Link to='/TopProducts'>Top products</Link></li>
+                    <li className={`${location.pathname === '/About' ? 'font-bold' : ''} text-white hover:font-bold transition-all duration-200 ease-linear`}><Link to='/About'>About</Link></li>
                     <div className="flex justify-center text-clip ">
                         <Dropdown numberOfItems={5} signOut={signOut} />
                     </div>
